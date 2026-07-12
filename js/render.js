@@ -24,10 +24,17 @@ export const renderExperiences = (experiences, selector = "[data-experience-list
       (item) => `
         <article class="timeline-card">
           <span class="timeline-date">${item.date}</span>
-          <div>
+          <div class="timeline-copy">
             <h3>${item.title}</h3>
             <p>${item.description}</p>
           </div>
+          ${
+            item.image
+              ? `<figure class="timeline-photo">
+                  <img src="${item.image}" alt="${item.imageAlt || item.title}" />
+                </figure>`
+              : ""
+          }
         </article>
       `
     )

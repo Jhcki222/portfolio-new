@@ -3,23 +3,31 @@ export const experiences = [
     date: "2026.07 -",
     title: "SSAFY 16th",
     description: "삼성 청년 SW 아카데미 16기에서 알고리즘과 웹 개발 역량을 확장하고 있습니다.",
+    image: "./assets/ssafy1.png",
+    imageAlt: "SSAFY 활동 사진",
   },
   {
     date: "2024.03 - 2024.12",
     title: "AI 기반 인플루언서 추천 시스템 졸업 프로젝트",
     description:
-      "팀장으로 Spring Boot API와 RAG 기반 추천 흐름을 설계하고, AI 서비스가 실제 화면과 연결되는 구조를 구현했습니다.",
+      "팀장으로 Vector DB 구축 데이터 수집, RAG 기반 추천 흐름을 설계하고, AI 서비스가 실제 화면과 연결되는 구조를 구현했습니다.",
+    image: "./assets/졸업프로젝트1.jpg",
+    imageAlt: "졸업 프로젝트 활동 사진",
   },
   {
     date: "2024.03 - 2025.01",
     title: "동국대학교 UMC 6, 7기",
     description: "웹과 AOS 프로젝트에 참여하며 두 개의 프로젝트와 해커톤을 경험하였습니다.",
+    image: "./assets/UMC1.jpg",
+    imageAlt: "UMC 활동 사진",
   },
   {
     date: "2023.03 - 2023.12",
     title: "코테이토 7기 WEB",
     description:
       "프론트엔드 파트장을 맡아 서비스 UI와 결제 기능을 구현하고 프로젝트 진행을 리드했습니다.",
+    image: "./assets/코테이토1.jpg",
+    imageAlt: "코테이토 활동 사진",
   },
 ];
 
@@ -58,7 +66,6 @@ export const projects = [
     tags: ["Graduation Project", "RAG", "Meta Graph API"],
     links: [
       { label: "GitHub", url: "https://github.com/CSID-DGU/2024-1-CECD1-DP-8" },
-      { label: "Deploy", url: "https://cecd-dp.netlify.app/" },
     ],
   },
   {
@@ -87,6 +94,8 @@ export const skills = [
 
 export const sectionKeywords = {
   about: ["about", "소개", "프로필", "개발자", "나에 대해서"],
+  hobbies: ["hobby", "hobbies", "취미", "나의 취미", "여행", "축구", "맛집", "수다"],
+  music: ["music", "음악", "음악 취향", "노래", "앨범", "장르"],
   experience: ["experience", "경험", "활동", "이력", "나의 경험"],
   projects: ["project", "projects", "프로젝트", "작업", "했던 프로젝트"],
   skills: ["skill", "skills", "기술", "스택", "기술 스택"],
@@ -95,6 +104,8 @@ export const sectionKeywords = {
 
 export const commandExamples = [
   "나에 대해서",
+  "나의 취미",
+  "음악 취향",
   "나의 경험을 알려줘",
   "내가 했던 프로젝트들",
   "기술 스택",
