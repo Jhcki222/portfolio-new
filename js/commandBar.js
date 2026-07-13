@@ -5,27 +5,50 @@ const showToast = (message) => {
   toast.textContent = message;
   toast.classList.add("is-visible");
   window.clearTimeout(showToast.timer);
-  showToast.timer = window.setTimeout(() => toast.classList.remove("is-visible"), 2200);
+  showToast.timer = window.setTimeout(() => toast.classList.remove("is-visible"), 1600);
 };
 
-const findTargetSection = (value, sectionKeywords) =>
+const findTargetPage = (value, sectionKeywords) =>
   Object.entries(sectionKeywords).find(([, keywords]) =>
-    keywords.some((keyword) => value.includes(keyword))
+    keywords.some((keyword) => value.includes(keyword.toLowerCase()))
   )?.[0] || "projects";
 
-export const setupCommandBar = (sectionKeywords) => {
+export const setupCommandBar = (sectionKeywords, pageRoutes) => {
   const form = document.querySelector("[data-command-form]");
   const input = document.querySelector("[data-command-input]");
-  if (!form || !input) return;
+  const suggestions = document.querySelector("[data-command-suggestions]");
+  if (!form || !input || !suggestions) return;
+
+  const showSuggestions = () => {
+    suggestions.classList.add("is-visible");
+  };
+
+  const hideSuggestions = () => {
+    suggestions.classList.remove("is-visible");
+  };
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const value = input.value.trim().toLowerCase();
-    const target = findTargetSection(value, sectionKeywords);
 
-    document.getElementById(target).scrollIntoView({ behavior: "smooth" });
-    showToast(`${document.querySelector(`a[href="#${target}"]`).textContent} 섹션으로 이동합니다.`);
-    input.value = "";
+    if (!value) {
+      showSuggestions();
+      return;
+    }
+
+    const target = findTargetPage(value, sectionKeywords);
+    showToast("페이지로 이동합니다.");
+    window.setTimeout(() => {
+      window.location.href = pageRoutes[target];
+    }, 180);
+  });
+
+  input.addEventListener("click", showSuggestions);
+  input.addEventListener("focus", showSuggestions);
+
+  document.addEventListener("click", (event) => {
+    if (form.contains(event.target) || suggestions.contains(event.target)) return;
+    hideSuggestions();
   });
 };
 

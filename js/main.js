@@ -1,12 +1,14 @@
-import { commandExamples, experiences, projects, sectionKeywords, skills } from "./data.js";
+import { albums, commandExamples, experiences, pageRoutes, projects, sectionKeywords, skills } from "./data.js";
 import { setupCommandBar, setupCommandTyping } from "./commandBar.js";
-import { observeSections, setupMobileMenu } from "./navigation.js";
-import { renderExperiences, renderProjects, renderSkills } from "./render.js";
+import { setActivePageLinks, setupBackToTop, setupMobileMenu } from "./navigation.js";
+import { renderAlbums, renderExperiences, renderProjects, renderSkills } from "./render.js";
 
 renderExperiences(experiences);
 renderProjects(projects);
 renderSkills(skills);
-observeSections();
+renderAlbums(albums);
+setActivePageLinks();
 setupMobileMenu();
-setupCommandBar(sectionKeywords);
+setupBackToTop();
+setupCommandBar(sectionKeywords, pageRoutes);
 setupCommandTyping(commandExamples);

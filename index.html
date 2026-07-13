@@ -3,36 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="새로운 기술을 빠르게 익혀 문제를 해결하는 백엔드 개발자 이종혁의 포트폴리오"
-    />
-    <title>Lee Jong Hyuck | Portfolio</title>
+    <meta name="description" content="백엔드 개발자 이종혁의 자기소개 포트폴리오입니다." />
+    <title>Lee Jong Hyuck | Home</title>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
-  <body>
+  <body data-page="home">
     <header class="site-header" data-header>
-      <a class="brand" href="#home" aria-label="홈으로 이동">
+      <a class="brand" href="./index.html" aria-label="홈으로 이동">
         <span class="brand-mark" aria-hidden="true"></span>
         <span class="brand-name">LEE JONG HYUCK</span>
       </a>
-
-      <nav class="section-tabs" aria-label="포트폴리오 섹션">
-        <a class="tab-link is-active" href="#home">Home</a>
-        <a class="tab-link" href="#about">About</a>
-        <a class="tab-link" href="#hobbies">Hobbies</a>
-        <a class="tab-link" href="#music">Music</a>
-        <a class="tab-link" href="#experience">Experience</a>
-        <a class="tab-link" href="#projects">Projects</a>
-        <a class="tab-link" href="#skills">Skills</a>
-        <a class="tab-link" href="#contact">Contact</a>
+      <nav class="section-tabs" aria-label="포트폴리오 페이지">
+        <a class="tab-link" href="./index.html" data-page-link="home">Home</a>
+        <a class="tab-link" href="./about.html" data-page-link="about">About</a>
+        <a class="tab-link" href="./hobbies.html" data-page-link="hobbies">Hobbies</a>
+        <a class="tab-link" href="./music.html" data-page-link="music">Music</a>
+        <a class="tab-link" href="./experience.html" data-page-link="experience">Experience</a>
+        <a class="tab-link" href="./projects.html" data-page-link="projects">Projects</a>
+        <a class="tab-link" href="./skills.html" data-page-link="skills">Skills</a>
+        <a class="tab-link" href="./contact.html" data-page-link="contact">Contact</a>
       </nav>
-
       <button class="menu-button" type="button" data-menu-button aria-label="메뉴 열기">
         <span></span>
         <span></span>
       </button>
-
       <div class="header-status" aria-label="현재 상태">
         <span>Status: Active</span>
         <span>Response: Ready</span>
@@ -40,303 +34,49 @@
     </header>
 
     <main>
-      <section class="hero section" id="home" data-section>
+      <section class="hero section">
         <div class="hero-glow" aria-hidden="true"></div>
         <p class="eyebrow">PORTFOLIO / BACKEND ENGINEER</p>
-        <h1>안녕하세요,<br />백엔드 개발자 이종혁입니다.</h1>
+        <h1>안녕하세요.<br />백엔드 개발자 이종혁입니다.</h1>
         <p class="hero-copy">
           새로운 기술을 빠르게 익혀 문제를 해결하고,<br class="desktop-break" />
-          다양한 기술을 적재적소에 활용해 사용자에게 더 큰 가치를 제공하는
-          서비스를 만들고자 합니다.
+          다양한 기술을 적재적소에 사용해 사용자에게 더 큰 가치를 제공하는 서비스를 만들고자 합니다.
         </p>
         <div class="hero-actions">
-          <a class="button button-dark" href="#about">개발자 알아보기</a>
-          <a class="button button-light" href="#projects">프로젝트 보기</a>
+          <a class="button button-dark" href="./about.html">개발자 알아보기</a>
+          <a class="button button-light" href="./projects.html">프로젝트 보기</a>
+        </div>
+
+        <div class="command-suggestions" data-command-suggestions aria-label="추천 이동 커맨드">
+          <a href="./about.html">About</a>
+          <a href="./hobbies.html">Hobbies</a>
+          <a href="./music.html">Music</a>
+          <a href="./experience.html">Experience</a>
+          <a href="./projects.html">Projects</a>
+          <a href="./skills.html">Skills</a>
+          <a href="./contact.html">Contact</a>
         </div>
 
         <form class="command-bar" data-command-form>
-          <label class="sr-only" for="portfolio-command">궁금한 섹션 입력</label>
-          <span class="command-plus" aria-hidden="true">Ask</span>
+          <label class="sr-only" for="portfolio-command">이동할 페이지 입력</label>
+          <span class="command-plus" aria-hidden="true">Go</span>
           <input
             id="portfolio-command"
             type="text"
-            placeholder=""
             autocomplete="off"
             data-command-input
           />
-          <button type="submit" aria-label="입력한 섹션으로 이동">↑</button>
+          <button type="submit" aria-label="추천 커맨드 열기 또는 입력한 페이지로 이동">→</button>
         </form>
-      </section>
-
-      <section class="about section section-dark" id="about" data-section>
-        <div class="section-inner about-grid">
-          <div class="section-title-block">
-            <p class="eyebrow">PAGE 02 / ABOUT ME</p>
-            <h2>About me</h2>
-          </div>
-
-          <aside class="profile-card" aria-label="프로필 요약">
-            <img src="./assets/이종혁_증명.jpg" alt="이종혁 증명사진" />
-            <strong>이종혁 / Lee Jong Hyuck</strong>
-            <span>1999.03.24</span>
-            <a href="mailto:jhcki222@gmail.com">jhcki222@gmail.com</a>
-          </aside>
-
-          <div class="about-panel character-panel">
-            <h3>Character</h3>
-            <p>
-              SSAFY 16기 덕분에 대전에 처음 오게 되었습니다. 앞으로 SSAFY에서 다양한 서비스를 함께 개발하며 많이 배우고 싶습니다. 친해지면 말이 많아지는 편이니, 앞으로 잘 부탁드립니다! 😊
-            </p>
-          </div>
-
-          <div class="about-panel education-panel">
-            <h3>Education</h3>
-            <dl class="timeline-list">
-              <div>
-                <dt>2019.03 - 2025.08</dt>
-                <dd>동국대학교 컴퓨터공학과 학사</dd>
-              </div>
-            </dl>
-          </div>
-
-          <div class="about-panel experiences-panel">
-            <h3>Experiences</h3>
-            <dl class="timeline-list compact-list">
-              <div>
-                <dt>2026.07 -</dt>
-                <dd>SSAFY 16th</dd>
-              </div>
-              <div>
-                <dt>2024.03 - 2025.01</dt>
-                <dd>동국대학교 UMC 6, 7기</dd>
-              </div>
-              <div>
-                <dt>2023.03 - 2023.12</dt>
-                <dd>코테이토 7기 WEB</dd>
-              </div>
-            </dl>
-          </div>
-
-          <div class="about-panel focus-panel">
-            <h3>Focus</h3>
-            <ul class="pill-list">
-              <li>Backend Engineering</li>
-              <li>AI Service</li>
-              <li>Cloud</li>
-              <li>System Architecture</li>
-            </ul>
-          </div>
-
-          <div class="about-panel certificate-panel">
-            <h3>Certificate</h3>
-            <ul class="pill-list">
-              <li>SQLD</li>
-              <li>정보처리기사</li>
-            </ul>
-          </div>
-
-          <div class="about-panel etc-panel">
-            <h3>ETC.</h3>
-            <ul class="pill-list">
-              <li>고향 : 일산</li>
-              <li>MBTI : INFP</li>
-            </ul>
-          </div>
-
-          <div class="about-panel hobby-panel">
-            <h3>Hobby</h3>
-            <ul class="pill-list">
-              <li>해외축구 시청</li>
-              <li>방 꾸미기</li>
-              <li>맛집 다니기</li>
-              <li>여행</li>
-              <li>친구들과 수다</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section-light hobbies-section" id="hobbies" data-section>
-        <div class="section-inner">
-          <div class="section-heading">
-            <p class="eyebrow">PAGE 03 / HOBBIES</p>
-            <h2>나의 취미</h2>
-          </div>
-          <div class="hobby-showcase">
-            <article class="hobby-column">
-              <div class="hobby-column-header">
-                <span class="hobby-number">01</span>
-                <h3>여행</h3>
-              </div>
-              <div class="hobby-photo-grid">
-                <figure class="photo-card">
-                  <img src="./assets/여행1.jpg" alt="나고야 여행 사진" />
-                  <figcaption>나고야</figcaption>
-                </figure>
-                <figure class="photo-card">
-                  <img src="./assets/여행2.jpg" alt="도쿄 여행 사진" />
-                  <figcaption>도쿄</figcaption>
-                </figure>
-                <figure class="photo-card">
-                  <img src="./assets/여행3.jpg" alt="단체티 여행 사진" />
-                  <figcaption>단체티</figcaption>
-                </figure>
-                <figure class="photo-card">
-                  <img src="./assets/여행4.jpg" alt="진격의 거인 전시회 사진" />
-                  <figcaption>전시회</figcaption>
-                </figure>
-              </div>
-            </article>
-
-            <article class="hobby-column">
-              <div class="hobby-column-header">
-                <span class="hobby-number">02</span>
-                <h3>해외축구 시청</h3>
-              </div>
-              <div class="hobby-photo-grid">
-                <figure class="photo-card">
-                  <img src="./assets/축구1.jpg" alt="챔피언스리그 시청 사진" />
-                  <figcaption>챔피언스리그 시청</figcaption>
-                </figure>
-                <figure class="photo-card">
-                  <img src="./assets/축구2.jpg" alt="파티룸에서 축구를 본 사진" />
-                  <figcaption>파티룸</figcaption>
-                </figure>
-              </div>
-            </article>
-
-            <article class="hobby-column">
-              <div class="hobby-column-header">
-                <span class="hobby-number">03</span>
-                <h3>맛집 다니기</h3>
-              </div>
-              <div class="hobby-photo-grid">
-                <figure class="photo-card">
-                  <img src="./assets/맛집1.jpg" alt="고등어봉초밥 사진" />
-                  <figcaption>고등어 봉초밥</figcaption>
-                </figure>
-                <figure class="photo-card">
-                  <img src="./assets/맛집2.jpg" alt="오코노미야끼 사진" />
-                  <figcaption>오코노미야끼</figcaption>
-                </figure>
-                <figure class="photo-card">
-                  <img src="./assets/맛집3.jpg" alt="라멘 사진" />
-                  <figcaption>라멘</figcaption>
-                </figure>
-                <figure class="photo-card">
-                  <img src="./assets/맛집4.jpg" alt="알곤이찜 사진" />
-                  <figcaption>알곤이찜</figcaption>
-                </figure>
-              </div>
-            </article>
-
-            <article class="hobby-column">
-              <div class="hobby-column-header">
-                <span class="hobby-number">04</span>
-                <h3>수다떨기</h3>
-              </div>
-              <div class="hobby-photo-grid">
-                <figure class="photo-card">
-                  <img src="./assets/수다1.jpg" alt="페이스톡 사진" />
-                  <figcaption>페이스톡</figcaption>
-                </figure>
-                <figure class="photo-card">
-                  <img src="./assets/수다2.png" alt="Discord 수다 사진" />
-                  <figcaption>Discord</figcaption>
-                </figure>
-              </div>
-            </article>
-          </div>
-          <p class="hobby-note">대전 맛집 추천 받습니다..</p>
-        </div>
-      </section>
-
-      <section class="section section-dark music-section" id="music" data-section>
-        <div class="section-inner music-inner">
-          <div class="section-heading">
-            <p class="eyebrow">PAGE 04 / MUSIC TASTE</p>
-            <h2>장르 가리지 않고 다 듣습니다</h2>
-          </div>
-          <div class="album-carousel" aria-label="앨범 커버 자리">
-            <div class="album-track">
-              <div class="album-cover"><img src="./assets/앨범1.png" alt="앨범 커버 1" /></div>
-              <div class="album-cover"><img src="./assets/앨범2.png" alt="앨범 커버 2" /></div>
-              <div class="album-cover"><img src="./assets/앨범3.png" alt="앨범 커버 3" /></div>
-              <div class="album-cover"><img src="./assets/앨범4.png" alt="앨범 커버 4" /></div>
-              <div class="album-cover"><img src="./assets/앨범5.png" alt="앨범 커버 5" /></div>
-              <div class="album-cover"><img src="./assets/앨범6.png" alt="앨범 커버 6" /></div>
-              <div class="album-cover"><img src="./assets/앨범7.png" alt="앨범 커버 7" /></div>
-              <div class="album-cover"><img src="./assets/앨범8.png" alt="앨범 커버 8" /></div>
-              <div class="album-cover"><img src="./assets/앨범9.png" alt="앨범 커버 9" /></div>
-              <div class="album-cover" aria-hidden="true"><img src="./assets/앨범1.png" alt="" /></div>
-              <div class="album-cover" aria-hidden="true"><img src="./assets/앨범2.png" alt="" /></div>
-              <div class="album-cover" aria-hidden="true"><img src="./assets/앨범3.png" alt="" /></div>
-              <div class="album-cover" aria-hidden="true"><img src="./assets/앨범4.png" alt="" /></div>
-              <div class="album-cover" aria-hidden="true"><img src="./assets/앨범5.png" alt="" /></div>
-              <div class="album-cover" aria-hidden="true"><img src="./assets/앨범6.png" alt="" /></div>
-              <div class="album-cover" aria-hidden="true"><img src="./assets/앨범7.png" alt="" /></div>
-              <div class="album-cover" aria-hidden="true"><img src="./assets/앨범8.png" alt="" /></div>
-              <div class="album-cover" aria-hidden="true"><img src="./assets/앨범9.png" alt="" /></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section-light" id="experience" data-section>
-        <div class="section-inner">
-          <div class="section-heading">
-            <p class="eyebrow">PAGE 05 / EXPERIENCES</p>
-            <h2>다양한 경험을 해보고 있습니다.</h2>
-          </div>
-          <div class="timeline" data-experience-list></div>
-        </div>
-      </section>
-
-      <section class="section section-dark" id="projects" data-section>
-        <div class="section-inner">
-          <div class="section-heading">
-            <p class="eyebrow">PAGE 06 / SELECTED PROJECTS</p>
-            <h2>Projects</h2>
-          </div>
-          <div class="project-grid" data-project-list></div>
-        </div>
-      </section>
-
-      <section class="section section-light" id="skills" data-section>
-        <div class="section-inner">
-          <div class="section-heading">
-            <p class="eyebrow">PAGE 07 / TECH STACK</p>
-            <h2>목적에 맞는 기술 사용을 지향합니다.</h2>
-          </div>
-          <div class="skill-grid" data-skill-list></div>
-        </div>
-      </section>
-
-      <section class="contact section section-dark" id="contact" data-section>
-        <div class="section-inner contact-inner">
-          <p class="eyebrow">CONTACT</p>
-          <h2>잘 부탁드립니다.</h2>
-          <p>좋은 팀을 기다리고 있습니다.</p>
-          <div class="contact-actions">
-            <a class="button button-contact" href="mailto:jhcki222@gmail.com">메일 보내기</a>
-            <a
-              class="button button-ghost"
-              href="https://github.com/Jhcki222"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
-          </div>
-        </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <span>DESIGNED BY LEE JONG HYUCK. © 2026</span>
-      <a href="#home">Back to top</a>
+      <a href="./index.html">Back to home</a>
     </footer>
 
+    <button class="back-to-top" type="button" data-back-to-top aria-label="맨 위로 이동">↑</button>
     <div class="toast" data-toast role="status" aria-live="polite"></div>
     <script type="module" src="./js/main.js"></script>
   </body>

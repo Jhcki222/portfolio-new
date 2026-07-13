@@ -79,3 +79,19 @@ export const renderSkills = (skills, selector = "[data-skill-list]") => {
     )
     .join("");
 };
+
+export const renderAlbums = (albums, selector = "[data-album-track]") => {
+  const track = document.querySelector(selector);
+  if (!track) return;
+
+  const repeatedAlbums = [...albums, ...albums];
+  track.innerHTML = repeatedAlbums
+    .map(
+      (album, index) => `
+        <div class="album-cover" ${index >= albums.length ? 'aria-hidden="true"' : ""}>
+          <img src="${album.image}" alt="${index >= albums.length ? "" : album.alt}" />
+        </div>
+      `
+    )
+    .join("");
+};
