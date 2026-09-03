@@ -1,0 +1,248 @@
+.hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 120px 20px 88px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(760px, 78vw);
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    rgba(153, 216, 255, 0.78) 0%,
+    rgba(199, 237, 255, 0.46) 44%,
+    rgba(255, 255, 255, 0) 72%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -48%);
+  pointer-events: none;
+}
+
+.hero > *:not(.hero-glow) {
+  position: relative;
+}
+
+
+.hero-copy {
+  max-width: 760px;
+  margin: 0 auto 26px;
+  color: var(--color-muted);
+  font-size: 19px;
+  line-height: 1.75;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+.command-suggestions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: min(820px, calc(100vw - 40px));
+  margin: 54px auto -46px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.command-suggestions.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.command-suggestions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 8px 13px;
+  color: var(--color-ink);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.command-suggestions a:hover {
+  background: var(--color-white);
+  border-color: rgba(0, 0, 0, 0.24);
+}
+
+.command-bar {
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px 1fr 56px;
+  column-gap: 24px;
+  align-items: center;
+  width: min(820px, calc(100vw - 40px));
+  min-height: 78px;
+  margin-top: 72px;
+  padding: 10px 12px 10px 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 24px;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(18px);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.command-bar::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: linear-gradient(135deg, rgba(17, 17, 19, 0.28), rgba(255, 255, 255, 0.72));
+  border-radius: 25px;
+}
+
+.command-bar:focus-within {
+  border-color: rgba(0, 0, 0, 0.34);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
+  transform: translateY(-2px);
+}
+
+.command-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  height: 42px;
+  color: var(--color-white);
+  background: var(--color-ink);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.command-bar input {
+  width: 100%;
+  min-width: 0;
+  color: var(--color-ink);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.command-bar input::placeholder {
+  color: rgba(17, 17, 19, 0.78);
+  opacity: 1;
+}
+
+.command-bar button {
+  width: 52px;
+  height: 52px;
+  color: var(--color-white);
+  background: var(--color-dark);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 900;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.command-bar button:hover {
+  background: #2b2b2d;
+}
+
+.command-bar button:active {
+  transform: scale(0.94);
+}
+
+
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 70;
+  max-width: min(360px, calc(100vw - 40px));
+  padding: 14px 16px;
+  color: var(--color-white);
+  background: var(--color-ink);
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+@media (max-width: 700px) {
+  .hero {
+    padding-top: 96px;
+  }
+
+  .hero-copy {
+    font-size: 16px;
+  }
+
+  .command-bar {
+    grid-template-columns: 58px 1fr 46px;
+    column-gap: 16px;
+    min-height: 66px;
+    margin-top: 48px;
+    padding: 8px 10px;
+    border-radius: 20px;
+  }
+
+  .command-plus {
+    min-width: 44px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .command-bar button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .desktop-break {
+    display: none;
+  }
+
+}
+
+.hero a:focus-visible, .command-bar button:focus-visible { outline: 2px solid #215d97; outline-offset: 5px; }
+
+@media (prefers-reduced-motion: reduce) { .command-bar, .command-suggestions, .toast { transition: none; } }
