@@ -3,7 +3,7 @@ import type { Project } from "./types";
 export const pixelArtScaling: Project = {
   slug: "pixel-art-scaling",
   name: "Structure-Aware Pixel Art Scaling",
-  category: "공동연구 · Applied Sciences 게재",
+  category: "공동연구 · 국제 학술지 게재",
   headline: "블록 구조를 보존하는 픽셀 아트 확대·축소 연구",
   summary: "고유 블록 크기를 탐지해 픽셀 아트를 확대·축소하는 연구입니다. 공약수·Minchunk 기반 알고리즘 구현과 검증에 참여했고 Applied Sciences에 공동 저자로 게재했습니다.",
   focus: "알고리즘 구현 · 검증 기준 수립 · 논문 공동 작성",

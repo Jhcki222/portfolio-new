@@ -53,7 +53,7 @@ for (const [slug, name] of projectPages) {
     for (const id of anchors) {
       assert.equal(main.split(`id="${id}"`).length - 1, 1, `Contents target ${id} must exist exactly once`);
     }
-    for (const [, source] of main.matchAll(/<a\b[^>]*href="(\/projects\/[^"#]+\.png)"/g)) {
+    for (const [, source] of main.matchAll(/<a\b[^>]*href="(\/projects\/[^"#]+\.(?:png|gif))"/g)) {
       const asset = await fetch(`${baseUrl}${source}`);
       assert.equal(asset.status, 200, `Source figure ${source} must open`);
       assert.match(asset.headers.get("content-type"), /^image\//);

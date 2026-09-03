@@ -10,6 +10,7 @@ export default function ProjectFigure({ figure, eager = false }: { figure: Figur
           alt={figure.alt}
           width={figure.width}
           height={figure.height}
+          unoptimized={figure.src.toLowerCase().endsWith(".gif")}
           loading={eager ? "eager" : "lazy"}
           sizes={figure.portrait
             ? "(max-width: 600px) calc(100vw - 40px), 580px"

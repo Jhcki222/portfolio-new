@@ -3,11 +3,11 @@ import type { Project } from "./types";
 export const knowwhohow: Project = {
   slug: "knowwhohow",
   name: "노후하우",
-  category: "시니어 자산 관리",
+  category: "시니어 자산 설계 서비스",
   headline: "자산을 모아 보고 금융상품을 추천받는 시니어 자산 관리 서비스",
   summary: "시니어를 위한 자산 관리·금융상품 추천 서비스입니다. 모의 마이데이터 환경과 DB 이중화를 구성하고, RAG 기반 금융상품 추천을 구현했습니다.",
   focus: "PL · 백엔드 · AI · 인프라 · 프론트엔드",
-  tags: ["Spring Boot", "FastAPI", "Next.js", "MySQL", "MongoDB", "Airflow", "HAProxy", "AWS"],
+  tags: ["Spring Boot", "RAG", "Airflow", "FastAPI", "Next.js", "MySQL", "MongoDB", "HAProxy", "AWS"],
   links: [{ label: "GitHub", url: "https://github.com/Fisa5-Main-Project" }],
   overview: [
     "시니어가 자산·부채·연금을 한눈에 확인하고 금융상품을 추천받는 서비스입니다. 마이데이터 표준 API 명세를 참고해 모의 마이데이터 환경을 직접 구성하고, 인증부터 자산 조회·포트폴리오 생성까지 연결했습니다.",
@@ -111,7 +111,7 @@ export const knowwhohow: Project = {
           paragraphs: [
             "상품마다 다른 필드를 저장하고 Vector Search를 사용할 수 있는 MongoDB Atlas를 선택했습니다. 사용자 정보를 텍스트로 정리해 상품과 같은 차원으로 임베딩하고, 유사도 검색에 메타데이터 필터를 결합했습니다. 후보를 재랭킹하고 StateGraph에서 검증·전처리한 뒤 RAG 응답에 사용했습니다.",
             "후보 수와 재랭킹 범위를 조절하며 품질과 지연 시간을 비교했습니다. 좋아요·싫어요는 상품 ID에 연결해 비선호 상품을 제외하고 선호 상품의 우선순위를 높였습니다.",
-            "Airflow DAG는 매일 새벽 3시에 상품 추출·전처리·임베딩·적재를 실행합니다. 만료 상품 삭제와 누락 임베딩 재처리도 별도 단계로 구성했습니다.",
+            "Airflow DAG는 매일 새벽에 상품 추출·전처리·임베딩·적재를 실행합니다. 만료 상품 삭제와 누락 임베딩 재처리도 별도 단계로 구성했습니다.",
           ],
         },
         {
@@ -140,7 +140,7 @@ export const knowwhohow: Project = {
         {
           heading: "사용자마다 반복되는 조회",
           paragraphs: [
-            "관리자 화면은 사용자별 메시지·AI 응답 수, 좋아요·싫어요와 최근 활동을 보여줍니다. MySQL에서 사용자 목록을 읽은 뒤 Python 반복문에서 사용자마다 MongoDB 통계를 조회했고, 채팅 로그 API도 이름을 가져오려고 MySQL 연결과 조회를 반복했습니다. 목록이 길어질수록 호출이 늘어나는 N+1과 유사한 패턴이었습니다.",
+            "관리자 화면은 사용자별 메시지·AI 응답 수, 좋아요·싫어요 수, 최근 활동 내역을 제공합니다. 기존에는 MySQL에서 사용자 목록을 조회한 뒤 Python 반복문 안에서 사용자별 MongoDB 통계를 개별 조회하고, 채팅 로그 API에서도 사용자 이름을 가져오기 위해 MySQL 연결과 조회를 반복했습니다. 그 결과 사용자 수가 늘어날수록 DB 호출 횟수가 함께 증가하는 N+1과 유사한 비효율이 발생했습니다.",
           ],
         },
         {

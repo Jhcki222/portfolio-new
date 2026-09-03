@@ -6,7 +6,7 @@ export const easyreader: Project = {
   headline: "웹페이지 요약과 음성 읽기를 제공하는 크롬 확장 프로그램",
   summary: "웹페이지를 요약하고 음성으로 읽어주는 크롬 확장 프로그램입니다. React UI, LLM 요약과 접근성 기능을 구현해 Chrome Web Store에 등록했습니다.",
   focus: "React 확장 프로그램 · LLM 요약 · 접근성 기능 구현",
-  tags: ["React", "Chrome Extension", "LLM", "TTS"],
+  tags: ["Chrome Extension", "LLM", "TTS"],
   links: [
     { label: "Chrome Web Store", url: "https://chromewebstore.google.com/detail/easy-reader/dgmckhbflcjjmnjoimgkmcljneoddoon?hl=ko" },
     { label: "GitHub", url: "https://github.com/fisa-mini-project" },
@@ -42,27 +42,87 @@ export const cardRecommendation: Project = {
   overview: [
     "카드 추천 답변을 생성하는 동안 SSE로 내용을 전달합니다. 비동기·논블로킹 요청 처리, 게이트웨이, LangChain RAG 체인과 스트리밍 응답을 맡았고, 같은 추천 기능을 Spring MVC와 WebFlux로 구성해 I/O 처리 방식을 비교했습니다.",
   ],
+  cover: {
+    src: "/projects/card-recommendation/demo.gif", width: 960, height: 487,
+    alt: "우리카드 추천 챗봇의 실제 시연 화면",
+    caption: "우리카드 추천 챗봇 메인페이지",
+  },
   contributions: [
     "Spring WebFlux 비동기·논블로킹 처리와 SSE 스트리밍 응답 구현",
     "게이트웨이 요청 경로 통합, JSON 카드 정보 기반 프롬프트와 LangChain RAG 체인 구성",
     "Spring MVC·WebFlux 비교 환경을 구성하고 K6·Grafana로 부하 테스트 진행",
   ],
   architecture: {
-    title: "RAG 검색과 SSE 응답",
-    paragraphs: ["Next.js 요청은 게이트웨이와 Spring 서버를 거쳐 FastAPI로 전달합니다. JSON 카드 정보를 바탕으로 프롬프트와 LangChain RAG 체인을 구성하고, 검색 결과로 생성하는 답변을 SSE로 클라이언트에 보냈습니다."],
+    title: "RAG 응답 스트리밍과 카드 상세 조회",
+    paragraphs: [
+      "Next.js의 추천 요청을 Spring WebFlux 서버가 받고, WebClient로 FastAPI AI 서버를 호출합니다. FastAPI는 LangChain RAG 체인으로 답변을 생성하고, WebFlux는 SSE로 전달받은 토큰을 클라이언트에 보냅니다.",
+      "답변 생성이 끝나면 전체 응답에서 CARD_NAME 목록을 파싱합니다. MongoDB에서 카드 상세 정보를 리액티브 방식으로 조회해 JSON으로 전달한 뒤 스트림을 종료합니다.",
+    ],
     steps: [
-      { title: "질문 전달", description: "Next.js → 게이트웨이 → Spring 서버" },
-      { title: "검색과 생성", description: "FastAPI·LangChain에서 카드 정보 검색 및 답변 생성" },
-      { title: "스트리밍", description: "생성 중인 응답을 SSE로 클라이언트에 전달" },
+      { title: "질문 전달", description: "Next.js → Spring WebFlux → WebClient → FastAPI" },
+      { title: "토큰 스트리밍", description: "RAG로 생성하는 답변을 SSE로 클라이언트에 전달" },
+      { title: "카드 상세 조회", description: "추천 카드명을 파싱하고 MongoDB에서 상세 정보를 조회해 전달" },
+    ],
+    figures: [
+      {
+        src: "/projects/card-recommendation/streaming-sequence.png", width: 955, height: 818,
+        alt: "Next.js, Spring WebFlux, FastAPI와 MongoDB 사이의 요청·SSE 토큰 전달·카드 상세 조회 시퀀스",
+        caption: "추천 요청부터 토큰 스트리밍, 카드 상세 JSON 전달과 스트림 종료까지의 흐름",
+      },
     ],
   },
   chapters: [
     {
-      id: "io-comparison", nav: "MVC·WebFlux 부하 비교",
-      title: "외부 응답 대기 중 스레드 사용 비교",
+      id: "io-comparison", nav: "성능 비교",
+      title: "성능 비교",
       blocks: [
-        { heading: "LLM 응답을 기다리는 동시 요청", paragraphs: ["카드 추천은 외부 응답을 기다리는 구간이 있어, 요청이 몰릴 때 Blocking I/O와 Non-blocking I/O가 스레드를 사용하는 차이를 비교했습니다. MVC와 WebFlux 서버를 각각 구성하고 WebFlux에는 비동기·논블로킹 처리와 SSE를 적용했습니다."] },
-        { heading: "단일 서버 과부하 실험", paragraphs: ["K6로 부하를 발생시키고 Grafana에서 스레드 사용과 DB 조회 부하를 관찰했습니다. 프로젝트의 단일 서버 과부하 실험에서 WebFlux의 스레드 가용성이 MVC보다 약 80% 높았습니다."] },
+        {
+          heading: "200·500 VU에서 DB I/O 부하 테스트",
+          paragraphs: ["Grafana k6로 200 VU와 500 VU의 DB I/O 부하를 발생시키고, Grafana에서 JVM 스레드 수와 상태를 비교했습니다. VU는 동시에 시나리오를 실행하는 가상 사용자를 뜻합니다."],
+        },
+        {
+          heading: "MVC: 스레드 수 증가와 blocked 상태 관찰",
+          paragraphs: ["MVC는 200 VU에서 최대 221개, 500 VU에서는 약 222개의 JVM 스레드를 사용했습니다. 부하를 높여도 스레드 수가 비슷하게 유지되어 Tomcat 스레드 풀 상한의 영향을 받은 것으로 보였습니다. blocked 상태의 스레드도 주기적으로 발생했습니다."],
+          figure: {
+            src: "/projects/card-recommendation/mvc-jvm-threads.png", width: 1563, height: 622,
+            alt: "MVC의 Grafana JVM 대시보드: 최대 스레드 222개와 주기적으로 발생하는 blocked 상태",
+            caption: "MVC 모니터링 화면. 최대 222개 스레드와 blocked 상태가 관찰됐습니다.",
+          },
+        },
+        {
+          heading: "WebFlux: 더 적은 스레드로 유사한 처리량",
+          paragraphs: [
+            "WebFlux는 200 VU에서 44개, 500 VU에서 59개의 JVM 스레드를 사용했습니다. 처리량과 평균 응답 시간은 MVC가 소폭 우세했지만, WebFlux는 500 VU에서 약 73% 적은 스레드로 유사한 처리량을 기록했습니다.",
+          ],
+          figure: {
+            src: "/projects/card-recommendation/webflux-jvm-threads.png", width: 1544, height: 608,
+            alt: "WebFlux의 Grafana JVM 대시보드: 최대 44개 스레드와 blocked 상태 0개",
+            caption: "WebFlux 200 VU 모니터링 화면. 최대 44개의 스레드를 사용했습니다.",
+          },
+        },
+      ],
+      metrics: {
+        caption: "DB I/O 부하별 JVM 스레드 수 비교",
+        columns: ["가상 사용자 수", "Spring MVC", "Spring WebFlux"],
+        rows: [["200 VU", "최대 221개", "44개"], ["500 VU", "약 222개", "59개"]],
+        note: "500 VU 기준 스레드 수 감소율은 (222 − 59) ÷ 222 ≈ 73.4%입니다. 서로 다른 DB와 로컬 테스트 환경에서 측정한 결과로, 프레임워크의 일반적인 성능 차이를 뜻하지 않습니다.",
+      },
+    },
+    {
+      id: "framework-selection", nav: "회고",
+      title: "회고",
+      blocks: [
+        {
+          heading: "실험에서 충분히 확인하지 못한 부분",
+          paragraphs: ["더 많은 변인을 추가해 비교하고 싶었지만, 개인 프로젝트에서 구성할 수 있는 테스트 환경에는 한계가 있었습니다. 서로 다른 DB와 로컬 환경의 영향을 분리하지 못했고 스트리밍 API도 충분히 검증하지 못해, 이번 결과를 일반화할 수는 없습니다."],
+        },
+        {
+          heading: "서비스 특성을 기준으로 프레임워크 선택",
+          paragraphs: [
+            "WebFlux가 MVC보다 항상 빠른 것은 아니라는 점을 확인했습니다. 기본적인 CRUD와 JPA 중심 서비스라면 MVC가 더 단순하고 빠를 수 있습니다. 외부 API 응답을 오래 기다리거나 I/O 연결을 길게 유지하는 서비스에서는 WebFlux의 적은 스레드로 요청을 처리하는 특성이 유리할 수 있습니다.",
+            "스레드 수뿐 아니라 메모리 사용량과 운영 복잡도까지 함께 살펴보고, 서비스의 I/O 패턴을 기준으로 프레임워크를 선택해야 한다고 배웠습니다.",
+          ],
+        },
       ],
     },
   ],

@@ -6,7 +6,7 @@ export const collabo: Project = {
   category: "산학협력 졸업 프로젝트 · 인플루언서 추천",
   headline: "광고 조건에 맞는 인플루언서 추천 서비스",
   summary: "광고주에게 인플루언서를 추천하고 후보 데이터를 보여주는 서비스입니다. 팀장으로 AI 추천과 프론트엔드를 맡아, Meta API 정책 변경에 맞춰 SQL·벡터 검색 기반 RAG로 재설계했습니다.",
-  focus: "팀장 · AI 엔지니어링 · 프론트엔드",
+  focus: "팀장 · 백엔드 · AI 엔지니어링 · 프론트엔드",
   period: "2024.03 — 2024.12",
   tags: ["Spring Boot", "React", "Flask", "PostgreSQL", "FAISS", "RAG"],
   links: [{ label: "GitHub", url: "https://github.com/CSID-DGU/2024-1-CECD1-DP-8" }],
