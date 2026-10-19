@@ -1,4 +1,5 @@
 import PortfolioSection from "@/components/portfolio-section";
+import { portfolioIntroduction } from "@/data/portfolio";
 
 export default function AboutSection() {
   return (
@@ -22,10 +23,7 @@ export default function AboutSection() {
       </aside>
       <div className="about-panel character-panel">
         <h3>Character</h3>
-        <p>
-          사용자를 생각하는 개발을 지향하며, 지속 가능한 서비스를 추구합니다. Java SpringBoot 기반
-          백엔드 개발을 중심으로 RAG, LLM, AI Agent와 시스템 아키텍처에 관심을 가지고 있습니다.
-        </p>
+        <ul className="profile-points">{portfolioIntroduction.map((point) => <li key={point}>{point}</li>)}</ul>
       </div>
       <div className="about-panel education-panel">
         <h3>Education</h3>
@@ -42,6 +40,10 @@ export default function AboutSection() {
           <div>
             <dt>2026.07 -</dt>
             <dd>SSAFY 16th</dd>
+          </div>
+          <div>
+            <dt>2025.07 - 2025.12</dt>
+            <dd>우리FIS아카데미 5기 · 960시간 수료</dd>
           </div>
           <div>
             <dt>2024.03 - 2025.01</dt>

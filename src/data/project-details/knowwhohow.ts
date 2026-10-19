@@ -1,156 +1,251 @@
 import type { Project } from "./types";
 
 export const knowwhohow: Project = {
-  slug: "knowwhohow",
-  name: "노후하우",
-  category: "시니어 자산 설계 서비스",
-  headline: "자산을 모아 보고 금융상품을 추천받는 시니어 자산 관리 서비스",
-  summary: "시니어를 위한 자산 관리·금융상품 추천 서비스입니다. 모의 마이데이터 환경과 DB 이중화를 구성하고, RAG 기반 금융상품 추천을 구현했습니다.",
-  focus: "PL · 백엔드 · AI · 인프라 · 프론트엔드",
-  tags: ["Spring Boot", "RAG", "Airflow", "FastAPI", "Next.js", "MySQL", "MongoDB", "HAProxy", "AWS"],
-  links: [{ label: "GitHub", url: "https://github.com/Fisa5-Main-Project" }],
-  overview: [
-    "시니어가 자산·부채·연금을 한눈에 확인하고 금융상품을 추천받는 서비스입니다. 마이데이터 표준 API 명세를 참고해 모의 마이데이터 환경을 직접 구성하고, 인증부터 자산 조회·포트폴리오 생성까지 연결했습니다.",
-    "기술 리더로 요구사항과 API·서버 구조를 정리했습니다. 백엔드와 AI 기능을 구현하고 프론트엔드와 인프라를 연결했습니다.",
+  "slug": "knowwhohow",
+  "name": "노후하우",
+  "category": "시니어 자산 설계 서비스",
+  "headline": "모의 마이데이터 기반 자산 관리·금융상품 추천",
+  "summary": "모의 마이데이터·금융상품 RAG 개발 · 상품 1,326개 수집 · Recall@10 0.68→0.85 · 사용자 정보 CDC 연동",
+  "focus": "PL · 백엔드 · AI · 인프라 · 프론트엔드",
+  "tags": [
+    "Spring Boot",
+    "FastAPI",
+    "Kafka",
+    "Debezium",
+    "Airflow",
+    "LangGraph",
+    "MongoDB Atlas",
+    "MySQL",
+    "AWS"
   ],
-  contributions: [
-    "메인·인증·리소스 서버로 모의 마이데이터 환경 구성, OAuth2 인증과 개인정보 암호화 구현",
-    "MySQL Master/Slave DB 이중화, HAProxy와 트랜잭션 속성을 이용한 읽기·쓰기 라우팅",
-    "금융상품 Hybrid Search·재랭킹, 관리자 통계와 채팅 로그의 교차 저장소 조회 개선",
-    "AWS·온프레미스 연결, Jenkins·SonarQube·JaCoCo를 이용한 CI 구성",
-    "공통 코드 컨벤션과 PR 리뷰 기준 정리, 클라이언트·백엔드·AI 서버 코드 검토",
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/Fisa5-Main-Project"
+    }
   ],
-  cover: {
-    src: "/projects/knowwhohow/cover.png", width: 1920, height: 1080,
-    alt: "노후하우 서비스 로고와 모바일 자산 포트폴리오 화면",
-    caption: "노후하우의 자산 관리와 금융상품 추천 화면",
+  "overview": [
+    "PL · 백엔드·AI 개발 · 프론트엔드·인프라 구성",
+    "사용자 정보 CDC · 작업 재처리 구현"
+  ],
+  "cover": {
+    "src": "/projects/knowwhohow/cover.png",
+    "width": 1920,
+    "height": 1080,
+    "alt": "노후하우 서비스 로고와 모바일 자산 포트폴리오 화면",
+    "caption": "노후하우의 자산 관리와 금융상품 추천 화면"
   },
-  architecture: {
-    placement: "after-chapters",
-    title: "온프레미스와 AWS를 연결한 하이브리드 구성",
-    paragraphs: [
-      "클라이언트, 메인 백엔드, AI 서버, 모의 마이데이터 인증·리소스 서버로 구성했습니다. 서비스 서버는 AWS에, 마이데이터와 데이터 수집·CI 환경은 온프레미스에 두고 터널링으로 연결했습니다.",
-      "사용자 정보는 MySQL, 채팅 로그는 MongoDB에 저장했습니다. 금융상품은 Airflow가 미리 수집·전처리·임베딩해 MongoDB Atlas에 적재하고, 추천 요청 시 이 데이터를 검색합니다.",
-    ],
-    figures: [
+  "architecture": {
+    "placement": "after-chapters",
+    "title": "온프레미스와 AWS를 연결한 하이브리드 구성",
+    "figures": [
       {
-        src: "/projects/knowwhohow/on-premise-architecture.png", width: 3652, height: 1822,
-        alt: "온프레미스의 Nginx·인증 서버·리소스 서버와 HAProxy 뒤의 MySQL Master·Slave, Jenkins·SonarQube와 Airflow 구성",
-        caption: "온프레미스: 모의 마이데이터 인증·리소스 서버, MySQL Master/Slave와 HAProxy, 상품 수집·CI 환경",
+        "src": "/projects/knowwhohow/on-premise-architecture.png",
+        "width": 3652,
+        "height": 1822,
+        "alt": "온프레미스의 Nginx·인증 서버·리소스 서버와 HAProxy 뒤의 MySQL Master·Slave, Jenkins·SonarQube와 Airflow 구성",
+        "caption": "온프레미스: 모의 마이데이터 인증·리소스 서버, MySQL Master/Slave와 HAProxy, 상품 수집·CI 환경"
       },
       {
-        src: "/projects/knowwhohow/aws-cloud-architecture.png", width: 1378, height: 897,
-        alt: "AWS VPC 안의 공개 서브넷 Nginx와 비공개 서브넷의 Spring 메인 서버, FastAPI AI 서버, Next.js 프론트엔드 및 RDS 구성",
-        caption: "AWS: 공개 서브넷의 진입 경로와 비공개 서브넷의 메인·AI·프론트엔드 서버를 분리한 구성",
-      },
+        "src": "/projects/knowwhohow/aws-cloud-architecture.png",
+        "width": 1378,
+        "height": 897,
+        "alt": "AWS VPC 안의 공개 서브넷 Nginx와 비공개 서브넷의 Spring 메인 서버, FastAPI AI 서버, Next.js 프론트엔드 및 RDS 구성",
+        "caption": "AWS: 공개 서브넷의 진입 경로와 비공개 서브넷의 메인·AI·프론트엔드 서버를 분리한 구성"
+      }
     ],
+    "items": [
+      "AWS 서비스 서버 ↔ 온프레미스 모의 마이데이터·Airflow·CI 환경 터널링",
+      "Airflow 상품 수집 → MongoDB Atlas → AI 추천 검색",
+      "Debezium·Kafka 기반 사용자 정보 갱신 워커"
+    ]
   },
-  chapters: [
+  "chapters": [
     {
-      id: "mydata", nav: "모의 마이데이터 환경 구성",
-      title: "모의 마이데이터 환경 구성과 DB 이중화",
-      blocks: [
+      "id": "mydata",
+      "nav": "모의 마이데이터 구현",
+      "title": "모의 마이데이터 구현",
+      "blocks": [
         {
-          heading: "메인·인증·리소스 서버를 직접 구성",
-          paragraphs: [
-            "마이데이터 표준 API 명세와 가이드라인을 분석해, 동의한 사용자의 금융 정보를 조회하는 모의 환경을 만들었습니다. 인증 서버는 본인 인증과 동의·토큰 발급을, 리소스 서버는 자산·부채·연금 조회를 담당하도록 분리했습니다.",
-            "메인 서버는 리소스 서버에서 받은 데이터를 정규화·재동기화하고, 자산에서 부채를 차감한 순자산과 연동 상태를 갱신합니다. 이 데이터를 포트폴리오와 AI 추천에 활용했습니다.",
-          ],
+          "heading": "인증·개인정보 처리",
+          "items": [
+            "표준 API 명세 기반 메인·인증·리소스 3개 서버 구성",
+            "Spring Authorization Server · Authorization Code · RSA 서명 JWT 적용",
+            "CI 기반 내부 사용자 매핑 · 사용자 ID를 자산 조회 조건에 반영",
+            "AES/GCM 암호화 · HMAC-SHA256 검색값 · JPA AttributeConverter 적용",
+            "Access Token Redis TTL 관리 · 401 시 토큰 갱신 후 1회 재호출"
+          ]
         },
         {
-          heading: "암호화와 사용자 식별",
-          paragraphs: [
-            "인증 서버의 사용자와 리소스 서버의 자산·부채·연금 소유자를 연결해야 했습니다. 이름·전화번호·CI는 원본 복원과 동일 값 검색이 모두 필요해 암호화한 원문과 검색용 식별값을 분리했습니다.",
-          ],
-        },
-        {
-          heading: "OAuth2 인증과 사용자별 조회",
-          paragraphs: [
-            "Spring Authorization Server로 OAuth2 Authorization Code 흐름과 동의 화면을 만들고 RSA·JWK 기반 JWT를 발급했습니다. 리소스 서버는 토큰의 CI를 복호화한 뒤 HMAC-SHA256으로 내부 사용자 ID를 구하고, Repository 조회 조건에 넣었습니다.",
-            "이름·전화번호·CI는 랜덤 IV를 사용하는 AES/GCM으로 암호화했습니다. 동일 값 검색에는 별도 HMAC-SHA256 컬럼과 인덱스를 사용하고, JPA AttributeConverter로 저장·조회 과정에 암복호화를 적용했습니다.",
-          ],
-        },
-        {
-          heading: "토큰 갱신과 오류 처리",
-          paragraphs: [
-            "Access Token은 expires_in에 맞춘 TTL로 Redis에 저장하고 Refresh Token은 RDB에 보관했습니다. 리소스 서버가 401을 반환하면 토큰 갱신 후 한 번 재호출하고, 갱신 실패와 서버 오류는 서로 다른 도메인 예외로 처리했습니다.",
-          ],
-        },
-        {
-          heading: "Master/Slave 이중화와 읽기·쓰기 분리",
-          paragraphs: [
-            "모의 마이데이터의 MySQL을 Master/Slave로 이중화하고 HAProxy를 통해 DB 트래픽을 분산했습니다. 데이터 변경은 Master가, 빈번한 조회는 Slave가 맡도록 읽기와 쓰기 경로를 나눴습니다.",
-            "인증·리소스 서버에 AbstractRoutingDataSource와 LazyConnectionDataSourceProxy를 적용했습니다. 실제 커넥션이 필요한 시점의 트랜잭션 속성을 확인해 readOnly 조회는 Slave로, 쓰기 트랜잭션은 Master로 연결하도록 구성했습니다.",
-          ],
-        },
+          "heading": "자산 조회·DB 라우팅",
+          "items": [
+            "자산·부채·연금 정규화 및 재동기화 · 순자산·연동 상태 갱신",
+            "MySQL Master/Slave · HAProxy 구성",
+            "AbstractRoutingDataSource·LazyConnectionDataSourceProxy로 readOnly 조회/쓰기 라우팅"
+          ]
+        }
       ],
+      "description": "마이데이터 연동을 검증하기 위해 표준 API 명세를 참고한 모의 환경을 구성했습니다. 동의·토큰 발급·자산 조회의 책임을 서버별로 나누고, 인증된 사용자 기준으로 금융정보를 조회하도록 구현했습니다."
     },
     {
-      id: "recommendation-search", nav: "AI 금융상품 추천",
-      title: "RAG 기반 금융상품 추천과 검색 고도화",
-      blocks: [
+      "id": "recommendation-search",
+      "nav": "추천 검색 개선",
+      "title": "금융상품 검색 개선",
+      "blocks": [
         {
-          heading: "자산 상황에 맞춘 추천 결과",
-          paragraphs: [
-            "사용자의 자산 정보와 목표를 바탕으로 금융상품을 추천합니다. 추천 카드에는 상품의 핵심 혜택과 사용자별 추천 이유를 보여주고, 원래 상품 페이지로 이동할 수 있는 링크를 함께 제공합니다.",
+          "heading": "Hybrid Search·재랭킹",
+          "items": [
+            "벡터 검색에 키워드 검색·상품 유형·필수 조건 필터 결합",
+            "LangGraph 상품군별 검색 도구 · 사용자 자산·목표 기반 추천 문맥 구성",
+            "상품 ID별 좋아요·싫어요 반영 · 혜택·추천 이유·가입 링크 제공",
+            "후보 수·재랭킹 범위 조정 → Recall@10 0.85 유지 · 검색시간 42% 단축"
           ],
-          figure: {
-            src: "/projects/knowwhohow/service-recommendation.png", width: 3840, height: 2160,
-            alt: "자산 포트폴리오에서 예금·펀드·연금저축 상품의 핵심 혜택, 추천 이유와 상품 페이지 링크를 보여주는 노후하우 화면",
-            caption: "금융상품 추천 결과: 상품별 핵심 혜택과 추천 이유를 표시하고 상세 상품 페이지로 연결합니다.",
-          },
-        },
-        {
-          heading: "벡터 유사도만으로 부족했던 검색",
-          paragraphs: [
-            "추천 대상은 연금저축 297개, 펀드 971개, 예·적금 58개로 총 1,326개였습니다. 상품 설명의 벡터 유사도만으로는 사용자의 자산 상황과 상품 조건을 충분히 반영하기 어려웠습니다.",
-          ],
-        },
-        {
-          heading: "메타데이터 필터와 재랭킹 적용",
-          paragraphs: [
-            "상품마다 다른 필드를 저장하고 Vector Search를 사용할 수 있는 MongoDB Atlas를 선택했습니다. 사용자 정보를 텍스트로 정리해 상품과 같은 차원으로 임베딩하고, 유사도 검색에 메타데이터 필터를 결합했습니다. 후보를 재랭킹하고 StateGraph에서 검증·전처리한 뒤 RAG 응답에 사용했습니다.",
-            "후보 수와 재랭킹 범위를 조절하며 품질과 지연 시간을 비교했습니다. 좋아요·싫어요는 상품 ID에 연결해 비선호 상품을 제외하고 선호 상품의 우선순위를 높였습니다.",
-            "Airflow DAG는 매일 새벽에 상품 추출·전처리·임베딩·적재를 실행합니다. 만료 상품 삭제와 누락 임베딩 재처리도 별도 단계로 구성했습니다.",
-          ],
-        },
-        {
-          heading: "내부 검색 실험 결과",
-          paragraphs: [
-            "내부 추천 검색 실험에서 Recall@10은 0.68에서 0.85로, NDCG@10은 0.64에서 0.79로 높아졌습니다. 이후 후보와 재랭킹 범위를 조정해 Recall@10 0.85를 유지하면서 평균 검색 응답 시간을 약 50% 줄였습니다.",
-          ],
-        },
+          "figure": {
+            "src": "/projects/knowwhohow/service-recommendation.png",
+            "width": 3840,
+            "height": 2160,
+            "alt": "자산 포트폴리오에서 예금·펀드·연금저축 상품의 핵심 혜택, 추천 이유와 상품 페이지 링크를 보여주는 노후하우 화면",
+            "caption": "금융상품 추천: 핵심 혜택 · 추천 이유 · 상세 링크"
+          }
+        }
       ],
-      metrics: {
-        caption: "추천 검색 고도화 전후",
-        columns: ["평가 지표", "개선 전", "개선 후"],
-        rows: [["Recall@10", "0.68", "0.85"], ["NDCG@10", "0.64", "0.79"]],
-        note: "프로젝트 내부 비교 실험 수치입니다. Recall은 관련 상품을 찾은 비율, NDCG는 관련 상품을 상위에 배치한 정도를 평가합니다.",
+      "metrics": {
+        "caption": "추천 검색 고도화 전후",
+        "columns": [
+          "평가 지표",
+          "개선 전",
+          "개선 후"
+        ],
+        "rows": [
+          [
+            "Recall@10",
+            "0.68",
+            "0.85"
+          ],
+          [
+            "NDCG@10",
+            "0.64",
+            "0.79"
+          ],
+          [
+            "검색시간 단축률",
+            "기준 구현",
+            "42% 단축"
+          ]
+        ],
+        "note": "내부 검색 비교 · Recall@10: 관련 상품 검색 · NDCG@10: 상위 순위 품질"
       },
-      figure: {
-        src: "/projects/knowwhohow/data-pipeline.png", width: 3840, height: 2160,
-        alt: "금융상품을 추출·전처리·임베딩·적재하고 만료 상품과 누락 임베딩을 처리하는 Airflow DAG",
-        caption: "상품 수집, 만료 상품 삭제와 누락 임베딩 재처리를 수행하는 Airflow DAG",
-      },
+      "description": "기존 벡터 검색의 Recall@10은 0.68, NDCG@10은 0.64였습니다. 상품 설명의 유사도에 상품 유형·필수 조건을 함께 반영하도록 검색을 변경하고, 후보 수와 재랭킹 범위를 조정했습니다."
     },
     {
-      id: "database-queries", nav: "반복 DB 조회 개선",
-      title: "항목별 DB 호출을 배치 조회로 변경",
-      blocks: [
+      "id": "product-pipeline",
+      "nav": "만료 상품과 수집 관리",
+      "title": "금융상품 1,326개 수집·갱신",
+      "blocks": [
         {
-          heading: "사용자마다 반복되는 조회",
-          paragraphs: [
-            "관리자 화면은 사용자별 메시지·AI 응답 수, 좋아요·싫어요 수, 최근 활동 내역을 제공합니다. 기존에는 MySQL에서 사용자 목록을 조회한 뒤 Python 반복문 안에서 사용자별 MongoDB 통계를 개별 조회하고, 채팅 로그 API에서도 사용자 이름을 가져오기 위해 MySQL 연결과 조회를 반복했습니다. 그 결과 사용자 수가 늘어날수록 DB 호출 횟수가 함께 증가하는 N+1과 유사한 비효율이 발생했습니다.",
-          ],
-        },
-        {
-          heading: "페이지 단위 집계와 ID 기반 연결",
-          paragraphs: [
-            "현재 페이지의 user_id를 모아 MongoDB의 $match·$in으로 범위를 제한했습니다. $group과 조건부 합계로 사용자·AI 메시지 수를 일괄 집계하고 피드백도 별도로 집계한 뒤, 사용자 ID를 키로 하는 Dictionary로 목록과 연결했습니다.",
-            "채팅 로그는 MongoDB 집계 결과의 사용자 ID를 모아 MySQL의 WHERE IN으로 이름을 한 번에 조회했습니다. ID와 이름의 Map을 만들어, 두 API의 반복문에서는 추가 DB 호출 없이 조회 결과만 조합하도록 바꿨습니다.",
-          ],
-        },
+          "heading": "Airflow ETL",
+          "items": [
+            "연금저축 297개 · 펀드 971개 · 예·적금 58개 수집",
+            "금융감독원·금융위원회·한국벤처투자 API → 전처리·rag_text → 임베딩·MongoDB 적재",
+            "상품군별 수집 · 컬렉션 통합 · 만료 상품 삭제 DAG 분리",
+            "임베딩 누락 상품만 backfill · 추천 요청은 Atlas 적재 데이터 검색"
+          ]
+        }
       ],
+      "figure": {
+        "src": "/projects/knowwhohow/data-pipeline.png",
+        "width": 3840,
+        "height": 2160,
+        "alt": "금융상품을 추출·전처리·임베딩·적재하고 만료 상품과 누락 임베딩을 처리하는 Airflow DAG",
+        "caption": "상품 수집, 만료 상품 삭제와 누락 임베딩 재처리를 수행하는 Airflow DAG"
+      },
+      "description": "상품을 수집한 뒤에도 판매 종료와 임베딩 누락을 관리해야 했습니다. 추천 요청마다 외부 API를 호출하는 대신, Airflow에서 상품 수집·정리·검색 준비를 처리하도록 분리했습니다."
     },
+    {
+      "id": "database-queries",
+      "nav": "관리자 통계 조회 개선",
+      "title": "관리자 통계 API의 반복 조회 제거",
+      "blocks": [
+        {
+          "heading": "페이지 단위 집계·배치 조회",
+          "items": [
+            "기존: 사용자 목록 조회 후 사용자별 MongoDB 통계·MySQL 이름 조회 반복",
+            "페이지 user_id 수집 → MongoDB $match·$in·$group 일괄 집계",
+            "사용자 이름은 MySQL WHERE IN으로 일괄 조회",
+            "Dictionary·Map으로 결과 조합 → 목록 반복문 내 DB I/O 제거"
+          ]
+        }
+      ],
+      "description": "관리자 화면에서 사용자마다 통계와 이름을 추가 조회해, 목록의 사용자 수에 따라 DB 왕복이 늘었습니다. 페이지에 필요한 ID를 먼저 모아 집계·일괄 조회하고 결과를 메모리에서 조합하도록 바꿨습니다."
+    },
+    {
+      "id": "user-state-freshness",
+      "nav": "사용자 정보 갱신",
+      "title": "사용자 정보 CDC 연동",
+      "blocks": [
+        {
+          "heading": "원천 조회·페르소나 갱신",
+          "items": [
+            "수동 벡터화 API 갱신 → CDC 자동 갱신·추천 요청 시 MySQL 재조회",
+            "REPEATABLE READ로 사용자·자산·목표·키워드 조회 · 동일 요청의 페르소나 재사용",
+            "Decimal 금액 · 0/False 반영 · 자산·키워드 정렬로 텍스트 생성 통일"
+          ]
+        },
+        {
+          "heading": "CDC·임베딩 워커",
+          "items": [
+            "MySQL snapshot·binlog → Debezium → Kafka → MongoDB 갱신 큐 → persona worker",
+            "이벤트는 갱신 대상 식별에 사용 · 실제 상태는 MySQL 재조회",
+            "최신 텍스트 우선 저장 · embedding worker에서 벡터 생성",
+            "텍스트 hash·모델 동일 시 재임베딩 생략 · 변경 시 이전 벡터 제거"
+          ]
+        }
+      ],
+      "description": "사용자 자산이 바뀌어도 벡터화 API를 다시 호출하기 전까지 이전 페르소나가 남을 수 있었습니다. CDC로 변경을 감지하고, 추천 요청에서는 MySQL을 다시 조회해 그 시점의 사용자 상태를 사용하도록 했습니다."
+    },
+    {
+      "id": "cdc-recovery",
+      "nav": "중단과 재처리",
+      "title": "CDC 재처리·복구 검증",
+      "blocks": [
+        {
+          "heading": "재전달·동시 갱신 처리",
+          "items": [
+            "MongoDB 작업 영속 등록 후 Kafka offset 수동 커밋",
+            "lease·토큰으로 작업 claim · 프로세스 종료 시 만료 후 재처리",
+            "generation·revision·hash 조건부 저장 · 삭제 사용자는 tombstone 처리",
+            "형식 오류 메시지 격리 · DB/네트워크 장애는 offset 유지 후 재소비",
+            "지수 backoff·jitter·임베딩 회로 차단 · 재처리 CLI·reconcile 제공"
+          ]
+        },
+        {
+          "heading": "검증 결과",
+          "items": [
+            "사용자 정보 갱신·재처리 관련 테스트 98개 통과",
+            "로컬 Docker 5개 시나리오: 소비자 중단 · claim 후 강제 종료 · 오류 메시지 · MySQL 복구 · 임베딩 실패 주입",
+            "변경 재반영 · lease 만료 후 재처리 · 최신 텍스트 유지·수동 재시도 확인"
+          ]
+        }
+      ],
+      "description": "소비자나 워커가 중단되면 같은 이벤트를 다시 받거나 처리 중인 작업이 남을 수 있습니다. 저장 후 offset 커밋, lease 만료 후 재처리, 조건부 저장을 적용하고 중단·재시작 실험으로 확인했습니다."
+    },
+    {
+      "id": "engineering-quality",
+      "nav": "코드 리뷰·CI",
+      "title": "코드 리뷰·CI",
+      "blocks": [
+        {
+          "heading": "공통 규칙·자동 검증",
+          "items": [
+            "계층·예외·트랜잭션 공통 규칙 정리",
+            "Jenkins·SonarQube·JaCoCo 연동 · 제출 당시 커버리지 85% 이상",
+            "3개 백엔드 저장소 Gemini Code Assist PR 리뷰 적용",
+            "사용자 시나리오 49/53개(92.5%) · 상품 추천 테스트 14개 통과"
+          ]
+        }
+      ],
+      "description": "서버별로 달랐던 계층·예외·트랜잭션 규칙을 정리하고 CI와 PR 리뷰에 반영했습니다. 자동 분석 결과는 팀원이 변경 의도와 실행 결과를 확인한 뒤 적용했습니다."
+    }
   ],
+  "description": "시니어가 자산·부채·연금을 한곳에서 확인하고 금융상품을 추천받는 서비스입니다. 모의 마이데이터 연동부터 상품 검색, 사용자 정보 갱신까지 개발했습니다."
 };

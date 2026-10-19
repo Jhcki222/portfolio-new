@@ -3,6 +3,7 @@ import { knowwhohow } from "./project-details/knowwhohow";
 import { pixelArtScaling } from "./project-details/pixel-art-scaling";
 import { cardRecommendation, delishare, easyreader } from "./project-details/other-projects";
 import type { Project } from "./project-details/types";
+import { studyReview } from "./project-details/study-review";
 
 export type { Project } from "./project-details/types";
 
@@ -13,6 +14,7 @@ export const projects: Project[] = [
   pixelArtScaling,
   cardRecommendation,
   delishare,
+  studyReview,
 ];
 
 export function getProject(slug: string) {

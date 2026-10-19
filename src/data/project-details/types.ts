@@ -18,7 +18,8 @@ export type ProjectChapter = {
   id: string;
   nav: string;
   title: string;
-  blocks: { heading: string; paragraphs: string[]; figure?: ProjectFigure }[];
+  description?: string;
+  blocks: { heading: string; items: string[]; figure?: ProjectFigure }[];
   figure?: ProjectFigure;
   metrics?: ProjectMetrics;
 };
@@ -34,12 +35,13 @@ export type Project = {
   tags: string[];
   links: { label: string; url: string }[];
   overview: string[];
+  description?: string;
   contributions?: string[];
   cover?: ProjectFigure;
   architecture?: {
     placement?: "before-chapters" | "after-chapters";
     title: string;
-    paragraphs: string[];
+    items: string[];
     figures?: ProjectFigure[];
     steps?: { title: string; description: string }[];
   };

@@ -1,104 +1,112 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { createPortal } from "react-dom";
-import { commandExamples, findCommandSection, navigationSections } from "@/lib/navigation";
+import { navigationSections } from "@/lib/navigation";
+import type { ChatMessage } from "@/lib/chat-service";
+import ChatAnswer from "@/components/chat-answer";
+
+const questions = ["어떤 개발자인가요?", "대표 프로젝트를 소개해 주세요", "사용하는 기술 스택은?", "연락처를 알려주세요"];
 
 export default function CommandBar() {
-  const router = useRouter();
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const suggestionsRef = useRef<HTMLDivElement>(null);
-  const navigationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [suggestionsVisible, setSuggestionsVisible] = useState(false);
-  const [isNavigating, setIsNavigating] = useState(false);
-  const [placeholder, setPlaceholder] = useState("");
+  const logRef = useRef<HTMLDivElement>(null);
+  const controller = useRef<AbortController | null>(null);
+  const busy = useRef(false);
+  const retryMessages = useRef<ChatMessage[] | null>(null);
 
+  useEffect(() => () => controller.current?.abort(), []);
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let exampleIndex = 0;
-    let charIndex = 0;
-    let deleting = false;
-    let typingTimer: ReturnType<typeof setTimeout>;
-    const type = () => {
-      const input = inputRef.current;
-      if (!input) return;
-      if (document.activeElement === input || input.value) {
-        typingTimer = setTimeout(type, 500);
-        return;
-      }
-      const example = commandExamples[exampleIndex];
-      setPlaceholder(example.slice(0, charIndex));
-      let pause = false;
-      if (!deleting && charIndex === example.length) {
-        deleting = true;
-        pause = true;
-      } else if (deleting && charIndex === 0) {
-        deleting = false;
-        exampleIndex = (exampleIndex + 1) % commandExamples.length;
-      }
-      charIndex += deleting ? -1 : 1;
-      typingTimer = setTimeout(type, pause ? 1200 : deleting ? 42 : 88);
-    };
-    typingTimer = setTimeout(type, 0);
-    return () => clearTimeout(typingTimer);
-  }, []);
+    if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
+  }, [messages, pending, error, open]);
 
-  useEffect(() => {
-    const dismiss = (event: MouseEvent) => {
-      if (!(event.target instanceof Node)) return;
-      if (formRef.current?.contains(event.target) || suggestionsRef.current?.contains(event.target)) return;
-      setSuggestionsVisible(false);
-    };
-    document.addEventListener("click", dismiss);
-    return () => {
-      document.removeEventListener("click", dismiss);
-      if (navigationTimer.current) clearTimeout(navigationTimer.current);
-      if (toastTimer.current) clearTimeout(toastTimer.current);
-    };
-  }, []);
+  async function send(question: string, retry = false) {
+    if (busy.current || (!retry && !question.trim())) return;
+    const next: ChatMessage[] = retry && retryMessages.current
+      ? retryMessages.current
+      : [...messages.slice(-8), { role: "user", content: question.trim() }];
+    busy.current = true;
+    retryMessages.current = next;
+    setMessages(next);
+    setInput("");
+    setOpen(true);
+    setPending(true);
+    setError("");
+    controller.current = new AbortController();
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: next }),
+        signal: AbortSignal.any([controller.current.signal, AbortSignal.timeout(42_000)]),
+      });
+      const data = await response.json();
+      if (!response.ok || typeof data.reply !== "string") throw new Error(data.error || "답변을 받지 못했습니다. 다시 시도해 주세요.");
+      setMessages([...next, { role: "assistant", content: data.reply }]);
+      retryMessages.current = null;
+    } catch (cause) {
+      if (controller.current?.signal.aborted) return;
+      setError(cause instanceof Error && cause.name === "TimeoutError" ? "응답이 지연되고 있습니다. 다시 시도해 주세요." : cause instanceof TypeError || cause instanceof SyntaxError ? "서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요." : cause instanceof Error ? cause.message : "연결에 실패했습니다. 다시 시도해 주세요.");
+    } finally {
+      busy.current = false;
+      setPending(false);
+    }
+  }
+
+  function reset() {
+    setMessages([]);
+    setError("");
+    retryMessages.current = null;
+    inputRef.current?.focus();
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const href = findCommandSection(inputRef.current?.value ?? "");
-    if (!href) {
-      setSuggestionsVisible(true);
-      return;
-    }
-    if (navigationTimer.current) clearTimeout(navigationTimer.current);
-    if (toastTimer.current) clearTimeout(toastTimer.current);
-    setSuggestionsVisible(false);
-    setIsNavigating(true);
-    navigationTimer.current = setTimeout(() => {
-      inputRef.current?.blur();
-      if (window.location.hash === href.slice(1)) {
-        document.getElementById(href.slice(2))?.scrollIntoView({ block: "start" });
-      } else {
-        router.push(href);
-      }
-    }, 180);
-    toastTimer.current = setTimeout(() => setIsNavigating(false), 1600);
+    void send(input);
   }
 
   return (
-    <>
-      <div ref={suggestionsRef} id="command-suggestions" className={`command-suggestions${suggestionsVisible ? " is-visible" : ""}`} aria-label="추천 이동 커맨드" inert={!suggestionsVisible}>
-        {navigationSections.filter((section) => section.id !== "home").map((section) => (
-          <Link href={section.href} key={section.id} onClick={() => setSuggestionsVisible(false)}>{section.label}</Link>
-        ))}
-      </div>
-      <form ref={formRef} className="command-bar" onSubmit={handleSubmit} onKeyDown={(event) => {
-        if (event.key === "Escape") setSuggestionsVisible(false);
-      }}>
-        <label className="sr-only" htmlFor="portfolio-command">이동할 섹션 입력</label>
-        <span className="command-plus" aria-hidden="true">Go</span>
-        <input ref={inputRef} id="portfolio-command" type="text" autoComplete="off" placeholder={placeholder || "프로젝트 보기"} onFocus={() => setSuggestionsVisible(true)} onClick={() => setSuggestionsVisible(true)} />
-        <button type="submit" aria-label="추천 커맨드 열기 또는 입력한 섹션으로 이동" aria-expanded={suggestionsVisible} aria-controls="command-suggestions">→</button>
+    <div className="portfolio-chat">
+      <nav className="chat-navigation" aria-label="섹션 바로가기">
+        {navigationSections.filter(({ id }) => id !== "home").map(({ id, label, href }) => <Link key={id} href={href}>{label}</Link>)}
+      </nav>
+      {open && <section className="chat-panel" aria-label="이종혁 포트폴리오 챗봇 채팅">
+        <header className="chat-panel-header">
+          <div><strong>포트폴리오 챗봇</strong><span>공개된 프로필과 프로젝트를 바탕으로 답변해요.</span></div>
+          <div className="chat-panel-actions">
+            <button type="button" onClick={reset} disabled={pending}>새 대화</button>
+            <button type="button" onClick={() => setOpen(false)} aria-label="대화 접기">−</button>
+          </div>
+        </header>
+        <div ref={logRef} className="chat-log" role="log" aria-label="대화 내역" aria-live="polite" aria-relevant="additions text" aria-busy={pending}>
+          {messages.length === 0 && <p className="chat-welcome">경험, 기술, 프로젝트 등에 대해 물어보세요.</p>}
+          {messages.map(({ role, content }, index) => <div key={index} className={`chat-message chat-message-${role}`}>
+            <span className="chat-speaker">{role === "user" ? "방문자" : "포트폴리오 챗봇"}</span>
+            {role === "assistant" ? <ChatAnswer content={content} /> : <p>{content}</p>}
+          </div>)}
+          {pending && <p className="chat-pending" role="status">포트폴리오를 살펴보고 있어요…</p>}
+        </div>
+        {error && <div className="chat-error" role="alert"><p>{error}</p><button type="button" onClick={() => void send("", true)} disabled={pending}>다시 시도</button><button type="button" onClick={reset}>새 대화</button></div>}
+        <p className="chat-disclaimer">AI 답변은 부정확할 수 있어요. 자세한 내용은 프로젝트 페이지에서 확인해 주세요.</p>
+      </section>}
+      <form className="command-bar" onSubmit={handleSubmit}>
+        <label className="sr-only" htmlFor="portfolio-command">이종혁에 대해 질문하기</label>
+        <span className="chat-input-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 11.5a8 8 0 0 1-8 8H4l1.8-3.5A8 8 0 1 1 20 11.5Z" /><path d="M8 10h8M8 13.5h5" /></svg>
+        </span>
+        <input ref={inputRef} id="portfolio-command" value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && event.nativeEvent.isComposing) event.preventDefault(); }} type="text" autoComplete="off" maxLength={2000} placeholder="저에 대해 궁금한 점을 물어보세요" disabled={pending || !!error} onFocus={() => { if (messages.length || error) setOpen(true); }} />
+        <button type="submit" disabled={pending || !!error || !input.trim()} aria-label={pending ? "답변 작성 중" : "질문 보내기"}>
+          {pending ? <svg className="chat-send-loading" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8" strokeOpacity=".25" /><path d="M12 4a8 8 0 0 1 8 8" strokeLinecap="round" /></svg> : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 18V6m-5 5 5-5 5 5" /></svg>}
+        </button>
       </form>
-      {isNavigating && createPortal(<div className="toast is-visible" role="status">섹션으로 이동합니다.</div>, document.body)}
-    </>
+      <div className="chat-question-list" aria-label="추천 질문">
+        {questions.map((question) => <button key={question} type="button" disabled={pending || !!error} onClick={() => void send(question)}>{question}</button>)}
+      </div>
+    </div>
   );
 }

@@ -8,12 +8,15 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
-    "test:routes": "node --test tests/project-pages.test.mjs"
+    "test:routes": "node --test tests/project-pages.test.mjs",
+    "test:chat": "node --experimental-strip-types --test tests/chat.test.mjs"
   },
   "dependencies": {
     "next": "16.3.4",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

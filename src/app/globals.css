@@ -510,6 +510,10 @@ h3 {
   min-width: 0;
 }
 
+.timeline-highlights { display: grid; gap: 6px; margin: 0; padding-left: 18px; color: var(--color-muted); font-size: 14px; line-height: 1.75; }
+.timeline-highlights li::marker { color: #557b9a; }
+.profile-points { display: grid; gap: 7px; padding-left: 18px; margin: 0; color: rgba(255,255,255,.82); font-size: 15px; line-height: 1.75; }
+
 .timeline-card .timeline-subtitle {
   margin: 0 0 14px;
   color: var(--color-muted);
@@ -568,7 +572,7 @@ h3 {
 
 .skill-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 14px;
 }
 

@@ -12,7 +12,7 @@ type ProjectDetailProps = {
 
 export default function ProjectDetail({ project, nextProject }: ProjectDetailProps) {
   const architectureAfterChapters = project.architecture?.placement === "after-chapters";
-  const architectureContents = project.architecture ? [{ id: "project-architecture", label: "설계와 동작 흐름" }] : [];
+  const architectureContents = project.architecture ? [{ id: "project-architecture", label: "시스템 구성" }] : [];
   const contents = [
     { id: "project-overview", label: "프로젝트 소개" },
     ...(project.contributions ? [{ id: "project-role", label: "내가 맡은 일" }] : []),
@@ -71,9 +71,8 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
           <article className="project-story" aria-label={`${project.name} 상세 설명`}>
             <section className="project-overview" aria-labelledby="project-overview">
               <h2 id="project-overview">프로젝트 소개</h2>
-              <div className="project-prose">
-                {project.overview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-              </div>
+              {project.description && <p className="project-intro">{project.description}</p>}
+              <ul className="project-points">{project.overview.map((item) => <li key={item}>{item}</li>)}</ul>
               {project.cover && <ProjectFigure figure={project.cover} eager />}
             </section>
 

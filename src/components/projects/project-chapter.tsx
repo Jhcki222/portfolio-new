@@ -5,11 +5,12 @@ export default function ProjectChapter({ chapter }: { chapter: Chapter }) {
   return (
     <section className="project-chapter" aria-labelledby={chapter.id}>
       <h2 id={chapter.id}>{chapter.title}</h2>
+      {chapter.description && <p className="project-intro">{chapter.description}</p>}
       <div className="project-chapter-blocks">
         {chapter.blocks.map((block) => (
           <div key={block.heading} className="project-prose">
             <h3>{block.heading}</h3>
-            {block.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            <ul className="project-points">{block.items.map((item) => <li key={item}>{item}</li>)}</ul>
             {block.figure && <ProjectFigure figure={block.figure} />}
           </div>
         ))}

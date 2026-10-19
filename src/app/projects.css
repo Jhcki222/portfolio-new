@@ -437,8 +437,8 @@
 }
 
 .project-story > section + section {
-  margin-top: 64px;
-  padding-top: 52px;
+  margin-top: 40px;
+  padding-top: 32px;
   border-top: 1px solid var(--project-line);
 }
 
@@ -477,9 +477,14 @@
   margin-top: 16px;
 }
 
+.project-points { display: grid; gap: 7px; margin: 0; padding-left: 19px; color: #4a5664; font-size: 16px; line-height: 1.75; list-style: disc; }
+.project-points li { padding-left: 2px; }
+.project-points li::marker { color: #6c879e; font-size: 11px; }
+.project-intro { margin: 0 0 20px; color: #4a5664; font-size: 16px; line-height: 1.85; text-wrap: pretty; }
+
 .project-contributions ul {
   display: grid;
-  gap: 14px;
+  gap: 8px;
   padding-left: 20px;
   margin: 0;
 }
@@ -505,7 +510,7 @@
 
 .project-chapter-blocks {
   display: grid;
-  gap: 30px;
+  gap: 20px;
 }
 
 .project-figure {

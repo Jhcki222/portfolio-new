@@ -11,7 +11,7 @@ export default function ExperienceSection() {
             <div className="timeline-copy">
               <h3>{item.title}</h3>
               {item.subtitle && <p className="timeline-subtitle">{item.subtitle}</p>}
-              <p>{item.description}</p>
+              <ul className="timeline-highlights">{[...item.description, ...(item.highlights ?? [])].map((point) => <li key={point}>{point}</li>)}</ul>
             </div>
             <figure className={`timeline-photo${item.imageFit === "contain" ? " timeline-photo-contain" : ""}`}>
               <img src={item.image} alt={item.imageAlt} />

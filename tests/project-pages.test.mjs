@@ -10,6 +10,7 @@ const projectPages = [
   ["pixel-art-scaling", "Structure-Aware Pixel Art Scaling"],
   ["card-recommendation", "신용카드 추천 챗봇"],
   ["delishare", "Delishare"],
+  ["study-review", "알고리즘 스터디 운영 AI 대시보드"],
 ];
 
 test("the project list keeps the requested order and links to every introduction", async () => {
@@ -34,7 +35,7 @@ for (const [slug, name] of projectPages) {
     assert.ok(main);
     assert.doesNotMatch(main, /project-reflection|돌아보며/);
     if (slug === "knowwhohow") assert.doesNotMatch(main, /우리FISA/);
-    if (slug !== "delishare") {
+    if (!["delishare", "study-review"].includes(slug)) {
       assert.match(main, /<a\b[^>]*href="https:\/\//, "Original project resources remain accessible");
     }
     const contents = main.match(/<nav\b[^>]*aria-label="페이지 목차"[\s\S]*?<\/nav>/)?.[0];
@@ -43,13 +44,29 @@ for (const [slug, name] of projectPages) {
     assert.ok(anchors.length >= 2);
     const headingOrder = Array.from(main.matchAll(/<h2\b[^>]*id="([^"]+)"/g), ([, id]) => id);
     assert.deepEqual(anchors, headingOrder, "Contents and body must follow the same reading order");
+    assert.doesNotMatch(main, /project-case-study|문제 · 대처 · 성과/);
+    assert.match(main, /<ul class="project-points">/, "Project details use compact lists");
+    assert.match(main, /<p class="project-intro">/, "Each project includes context alongside implementation bullets");
+    assert.doesNotMatch(main, /물리 서버|클라우드 이관|후속 인프라 과제/);
+    assert.doesNotMatch(main, /<h3[^>]*>(?:문제|대처|성과|성과와 보강):/);
     if (slug === "knowwhohow") {
+      assert.match(main, /42%/);
+      assert.doesNotMatch(main, /약 50%/);
+      for (const phrase of ["Debezium", "98개", "5개 시나리오", "49/53", "92.5%", "만료 상품", "임베딩 누락"]) assert.ok(main.includes(phrase));
+      assert.doesNotMatch(main, /2026|후속 고도화/);
+      assert.doesNotMatch(main, /서로 다른 실험입니다|작은 fixture|확대하지 않았습니다/);
       assert.ok(anchors.indexOf("mydata") < anchors.indexOf("recommendation-search"));
       assert.equal(anchors.at(-1), "project-architecture");
       for (const image of ["on-premise-architecture", "aws-cloud-architecture", "service-recommendation"]) {
         assert.ok(main.includes(`href="/projects/knowwhohow/${image}.png"`), `${image} must appear in the project story`);
       }
     }
+    if (slug === "collabo") {
+      for (const value of ["Recall@5", "0.59", "0.88", "ROUGE-1 F1", "0.46", "0.72", "nDCG@5", "0.61", "0.74"]) assert.ok(main.includes(value));
+      assert.doesNotMatch(main, /30% 이상 개선/);
+    }
+    if (slug === "easyreader") assert.ok(main.includes('href="/projects/easyreader/store-listing.png"'), "EasyReader shows the supplied store screenshot");
+    if (slug === "study-review") for (const phrase of ["4명", "SHA-256", "JSON", "Promise", "Notion", "GitHub"]) assert.ok(main.includes(phrase));
     for (const id of anchors) {
       assert.equal(main.split(`id="${id}"`).length - 1, 1, `Contents target ${id} must exist exactly once`);
     }

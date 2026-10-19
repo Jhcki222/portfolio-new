@@ -9,7 +9,7 @@ import "./hero.css";
 
 export const metadata: Metadata = {
   title: { default: "이종혁 | Backend Developer Portfolio", template: "Lee Jong Hyuck | %s" },
-  description: "Java SpringBoot 기반 백엔드 개발자 이종혁의 포트폴리오. 프로젝트, 개발 경험, 기술 스택과 연락처를 한눈에 확인하세요.",
+  description: "Java·Spring Boot 기반 백엔드 개발자 이종혁의 포트폴리오. AI 검색, CDC 데이터 파이프라인, I/O 성능과 장애 복구를 개선한 프로젝트와 개발 경험을 소개합니다.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
