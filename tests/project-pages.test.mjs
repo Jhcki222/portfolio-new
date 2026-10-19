@@ -35,7 +35,7 @@ for (const [slug, name] of projectPages) {
     assert.ok(main);
     assert.doesNotMatch(main, /project-reflection|돌아보며/);
     if (slug === "knowwhohow") assert.doesNotMatch(main, /우리FISA/);
-    if (!["delishare", "study-review"].includes(slug)) {
+    if (!["delishare", "study-review", "collabo"].includes(slug)) {
       assert.match(main, /<a\b[^>]*href="https:\/\//, "Original project resources remain accessible");
     }
     const contents = main.match(/<nav\b[^>]*aria-label="페이지 목차"[\s\S]*?<\/nav>/)?.[0];
@@ -56,7 +56,8 @@ for (const [slug, name] of projectPages) {
       assert.doesNotMatch(main, /2026|후속 고도화/);
       assert.doesNotMatch(main, /서로 다른 실험입니다|작은 fixture|확대하지 않았습니다/);
       assert.ok(anchors.indexOf("mydata") < anchors.indexOf("recommendation-search"));
-      assert.equal(anchors.at(-1), "project-architecture");
+      assert.ok(anchors.indexOf("project-role") < anchors.indexOf("project-architecture"));
+      assert.ok(anchors.indexOf("project-architecture") < anchors.indexOf("mydata"));
       for (const image of ["on-premise-architecture", "aws-cloud-architecture", "service-recommendation"]) {
         assert.ok(main.includes(`href="/projects/knowwhohow/${image}.png"`), `${image} must appear in the project story`);
       }

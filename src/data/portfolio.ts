@@ -64,7 +64,7 @@ export const experiences: Experience[] = [
 ];
 
 export const skills: [category: string, items: string[]][] = [
-  ["Backend", ["Java", "Spring Boot", "Spring WebFlux", "FastAPI", "MySQL", "MongoDB", "PostgreSQL", "Redis"]],
+  ["Backend", ["Java", "Spring Boot", "JPA", "FastAPI", "MySQL", "MongoDB", "PostgreSQL"]],
   ["AI", ["LangChain", "LangGraph", "Vector DB", "LLM", "RAG"]],
   ["Frontend", ["React.js", "Next.js", "TypeScript", "JavaScript", "HTML/CSS"]],
   ["Data Pipeline", ["Airflow", "Debezium", "Kafka", "SQLAlchemy"]],

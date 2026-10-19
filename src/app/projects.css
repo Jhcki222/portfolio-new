@@ -58,6 +58,11 @@
   list-style: none;
 }
 
+.project-list-description > .project-list-role { margin-bottom: 10px; color: #435365; font-size: 14px; line-height: 1.7; }
+.project-list-role > span { margin-right: 6px; color: #65788a; font-weight: 600; }
+.project-list-highlights { display: grid; gap: 5px; margin: 0 0 18px; padding-left: 18px; color: #54616e; font-size: 14px; line-height: 1.7; }
+.project-list-highlights li::marker { color: #6c879e; }
+
 .project-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

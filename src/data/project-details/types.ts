@@ -30,6 +30,7 @@ export type Project = {
   category: string;
   headline: string;
   summary: string;
+  highlights?: string[];
   focus?: string;
   period?: string;
   tags: string[];

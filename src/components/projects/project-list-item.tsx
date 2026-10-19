@@ -28,7 +28,9 @@ export default function ProjectListItem({ project, featured = false }: { project
         </div>
         <div className="project-list-description">
           <p>{project.summary}</p>
-          <ProjectTags tags={project.tags.slice(0, 4)} />
+          {project.focus && <p className="project-list-role"><span>역할</span> {project.focus}</p>}
+          {project.highlights && <ul className="project-list-highlights">{project.highlights.map((item) => <li key={item}>{item}</li>)}</ul>}
+          <ProjectTags tags={project.tags.slice(0, 6)} />
         </div>
         <span className="project-open">
           <span>프로젝트 보기</span>

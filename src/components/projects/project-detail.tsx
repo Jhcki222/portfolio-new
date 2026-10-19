@@ -79,7 +79,7 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
             {project.contributions && (
               <section className="project-contributions" aria-labelledby="project-role">
                 <h2 id="project-role">내가 맡은 일</h2>
-                <ul>{project.contributions.map((item) => <li key={item}>{item}</li>)}</ul>
+                <ul className="project-points">{project.contributions.map((item) => <li key={item}>{item}</li>)}</ul>
               </section>
             )}
 
