@@ -23,7 +23,7 @@ export default function AboutSection() {
       </aside>
       <div className="about-panel character-panel">
         <h3>Character</h3>
-        <ul className="profile-points">{portfolioIntroduction.map((point) => <li key={point}>{point}</li>)}</ul>
+        {portfolioIntroduction.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       </div>
       <div className="about-panel education-panel">
         <h3>Education</h3>
@@ -39,11 +39,11 @@ export default function AboutSection() {
         <dl className="timeline-list compact-list">
           <div>
             <dt>2026.07 -</dt>
-            <dd>SSAFY 16th</dd>
+            <dd>SSAFY 16th Java 트랙</dd>
           </div>
           <div>
             <dt>2025.07 - 2025.12</dt>
-            <dd>우리FIS아카데미 5기 · 960시간 수료</dd>
+            <dd>우리FIS아카데미 5기 클라우드 서비스 개발과정</dd>
           </div>
           <div>
             <dt>2024.03 - 2025.01</dt>

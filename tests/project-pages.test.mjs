@@ -66,7 +66,7 @@ for (const [slug, name] of projectPages) {
       assert.doesNotMatch(main, /30% 이상 개선/);
     }
     if (slug === "easyreader") assert.ok(main.includes('href="/projects/easyreader/store-listing.png"'), "EasyReader shows the supplied store screenshot");
-    if (slug === "study-review") for (const phrase of ["4명", "SHA-256", "JSON", "Promise", "Notion", "GitHub"]) assert.ok(main.includes(phrase));
+    if (slug === "study-review") for (const phrase of ["6명", "SHA-256", "JSON", "Promise", "Notion", "GitHub"]) assert.ok(main.includes(phrase));
     for (const id of anchors) {
       assert.equal(main.split(`id="${id}"`).length - 1, 1, `Contents target ${id} must exist exactly once`);
     }
