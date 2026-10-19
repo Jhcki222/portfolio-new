@@ -4,18 +4,94 @@ export type ChatProvider = { name: "groq" | "ollama"; key: string; model: string
 export const MAX_BODY_BYTES = 32_768;
 export const MAX_MESSAGES = 12;
 export const MAX_MESSAGE_LENGTH = 2_000;
+export const MAX_CONTEXT_BYTES = 7_000;
 
 export function getChatProviders(env: Record<string, string | undefined>): ChatProvider[] {
   const providers: ChatProvider[] = [];
   if (env.LLM_API_KEY?.trim()) providers.push({
     name: "groq", key: env.LLM_API_KEY.trim(),
-    model: env.LLM_REVIEW_MODEL?.trim() || "openai/gpt-oss-120b",
+    model: env.LLM_REVIEW_MODEL?.trim() || "openai/gpt-oss-20b",
   });
+  if (env.LLM_API_KEY?.trim()) {
+    const fallbacks = (env.LLM_FALLBACK_MODELS ?? "openai/gpt-oss-120b").split(",").map((model) => model.trim()).filter(Boolean);
+    for (const model of [...new Set(fallbacks)].slice(0, 2)) {
+      if (!providers.some((provider) => provider.name === "groq" && provider.model === model)) {
+        providers.push({ name: "groq", key: env.LLM_API_KEY.trim(), model });
+      }
+    }
+  }
   if (env.OLLAMA_API_KEY?.trim()) providers.push({
     name: "ollama", key: env.OLLAMA_API_KEY.trim(),
-    model: env.OLLAMA_REVIEW_MODEL?.trim() || "gpt-oss:120b",
+    model: env.OLLAMA_REVIEW_MODEL?.trim() || "gemma4:31b",
   });
   return providers;
+}
+
+// Keep complete source records, but send only a catalogue and relevant evidence.
+// The previous full portfolio exceeded Groq's free-tier per-minute input budget.
+export function selectPortfolioContext(context: string, messages: ChatMessage[]): string {
+  let data;
+  try { data = JSON.parse(context); } catch { return context; }
+  if (!Array.isArray(data?.projects)) return context;
+  const latest = messages.at(-1)?.content.toLowerCase() ?? "";
+  const previous = messages.filter((message) => message.role === "user").slice(-3, -1).map((message) => message.content.toLowerCase()).join(" ");
+  const aliases: Record<string, string[]> = {
+    knowwhohow: ["노후", "금융", "마이데이터", "인증", "cdc", "kafka", "debezium", "airflow"],
+    collabo: ["졸업", "인플루언서", "콜라보", "collabo", "rwr", "querydsl", "lcp", "oid"],
+    easyreader: ["easyreader", "easy reader", "이지리더", "확장", "접근성", "음성", "tts"],
+    "pixel-art-scaling": ["픽셀", "pixel", "논문", "opencv", "블록", "minchunk"],
+    "card-recommendation": ["카드", "webflux", "mvc", "sse"],
+    delishare: ["delishare", "델리", "배달", "공동구매", "bloom", "매칭"],
+    "study-review": ["스터디", "대시보드", "notion", "코드 리뷰", "코드리뷰", "알고리즘"],
+  };
+  const keywords = latest.match(/[a-z0-9][a-z0-9-]+|[가-힣]{2,}/g) ?? [];
+  const projects = data.projects as Record<string, any>[];
+  const selected = projects.map((project) => {
+    const slug = String(project.url).split("/").at(-1) ?? "";
+    const terms = [String(project.name).toLowerCase(), slug, ...(aliases[slug] ?? [])];
+    const score = terms.reduce((sum, term) => sum + (latest.includes(term) ? 3 : 0) + (previous.includes(term) ? 1 : 0), 0);
+    return { project, score };
+  }).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score).slice(0, 2);
+  const compact: Record<string, any> = {
+    profile: data.profile,
+    skills: data.skills,
+    experiences: data.experiences?.map(({ date, title, subtitle }: Record<string, unknown>) => ({ date, title, subtitle })),
+    projects: projects.map(({ name, url, summary, focus }) => ({ name, url, summary, focus })),
+    details: [],
+  };
+  const add = (record: Record<string, unknown>) => {
+    compact.details.push(record);
+    if (Buffer.byteLength(JSON.stringify(compact)) > MAX_CONTEXT_BYTES) compact.details.pop();
+  };
+  for (const { project } of selected) add({ project: project.name, contributions: project.contributions, overview: project.overview });
+  const sections = selected.flatMap(({ project }) => (project.chapters ?? []).map((chapter: Record<string, any>) => ({
+    project: project.name, chapter,
+    score: keywords.reduce((sum, word) => sum + (JSON.stringify(chapter).toLowerCase().includes(word) ? 1 : 0), 0),
+  }))).sort((a, b) => b.score - a.score);
+  for (const { project, chapter } of sections) {
+    add({ project, section: chapter.title, description: chapter.description, metrics: chapter.metrics });
+    for (const block of chapter.blocks ?? []) add({ project, section: chapter.title, ...block });
+  }
+  // Activity questions also need their measured results and role details.
+  for (const experience of data.experiences ?? []) {
+    if (keywords.some((word) => JSON.stringify(experience).toLowerCase().includes(word))) add({ experience });
+  }
+  return JSON.stringify(compact);
+}
+
+function boundedHistory(messages: ChatMessage[]): ChatMessage[] {
+  const latest = messages.at(-1)!;
+  const history = [latest];
+  let bytes = 0;
+  // Preserve complete question/answer pairs; never shorten the latest question.
+  for (let index = messages.length - 2; index >= 1; index -= 2) {
+    const pair = messages.slice(index - 1, index + 1);
+    const pairBytes = pair.reduce((total, message) => total + Buffer.byteLength(message.content), 0);
+    if (bytes + pairBytes > 2_500) break;
+    bytes += pairBytes;
+    history.unshift(...pair);
+  }
+  return history;
 }
 
 export function parseMessages(body: unknown): ChatMessage[] | null {
@@ -60,11 +136,11 @@ async function requestReply(provider: ChatProvider, messages: { role: string; co
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${provider.key}` },
     body: JSON.stringify(groq ? {
-      model: provider.model, messages, max_completion_tokens: 1600,
+      model: provider.model, messages, max_completion_tokens: 1000,
       ...(provider.model.startsWith("openai/gpt-oss-") ? { reasoning_effort: "low" } : {}),
     } : {
       model: provider.model, messages, stream: false, think: false,
-      options: { num_predict: 1600 },
+      options: { num_predict: 1000 },
     }),
     signal,
     cache: "no-store",
@@ -90,12 +166,15 @@ export async function generateReply({ providers, context, messages, signal, fetc
   signal?: AbortSignal; fetcher?: typeof fetch;
 }): Promise<string> {
   if (!providers.length) throw new ChatServiceError(503, "현재 AI 채팅을 준비 중입니다. 연락처로 문의해 주세요.");
-  const history = [{ role: "system", content: instructions(context) }, ...messages.map(({ role, content }) => ({ role, content }))];
+  const history = [{ role: "system", content: instructions(selectPortfolioContext(context, messages)) }, ...boundedHistory(messages)];
   const errors: number[] = [];
+  const deadline = Date.now() + 36_000;
   for (const provider of providers) {
     signal?.throwIfAborted();
-    // Both attempts fit within the route's 45s and browser's 42s limits.
-    const timeout = AbortSignal.timeout(provider.name === "groq" ? 12_000 : 24_000);
+    // All model attempts share a budget below the route and browser deadlines.
+    const remaining = deadline - Date.now();
+    if (remaining <= 0) break;
+    const timeout = AbortSignal.timeout(Math.min(remaining, provider.name === "groq" ? 10_000 : 16_000));
     const attemptSignal = signal ? AbortSignal.any([signal, timeout]) : timeout;
     try {
       return await requestReply(provider, history, attemptSignal, fetcher);

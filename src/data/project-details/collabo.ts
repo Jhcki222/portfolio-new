@@ -6,7 +6,7 @@ export const collabo: Project = {
   "category": "산학협력 졸업 프로젝트, 인플루언서 추천",
   "headline": "광고 조건에 맞는 인플루언서 추천",
   "summary": "브랜드의 광고 조건에 맞는 인플루언서를 찾아주는 AI 추천 서비스",
-  "focus": "팀장 / 백엔드 공동개발, AI 추천과 React 화면 개발",
+  "focus": "팀장 / AI, 풀스택 개발",
   "period": "2024.03 — 2024.12",
   "tags": [
     "Spring Boot",
@@ -20,7 +20,7 @@ export const collabo: Project = {
   "links": [],
   "overview": [
     "산학협력 졸업 프로젝트",
-    "팀장으로 백엔드 공동개발, AI 추천과 React 화면 개발 담당"
+    "팀장으로 참여하여 AI 기능 구현과 풀스택 개발"
   ],
   "cover": {
     "src": "/projects/collabo/cover.png",

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { ChatServiceError, generateReply, getChatProviders, parseMessages } from "../src/lib/chat-service.ts";
+import { ChatServiceError, generateReply, getChatProviders, parseMessages, selectPortfolioContext, MAX_CONTEXT_BYTES } from "../src/lib/chat-service.ts";
 
 const providers = [
   { name: "groq", key: "groq-test-key", model: "openai/gpt-oss-120b" },
@@ -12,10 +12,56 @@ const groqResponse = (content = "Groq 답변") => Response.json({ choices: [{ fi
 const ollamaResponse = (content = "Ollama 답변") => Response.json({ done: true, message: { content, thinking: "비공개 추론" } });
 
 test("reads trimmed server keys in priority order and supports either key alone", () => {
-  assert.deepEqual(getChatProviders({ LLM_API_KEY: " groq-test-key ", OLLAMA_API_KEY: "ollama-test-key" }), providers);
-  assert.deepEqual(getChatProviders({ OLLAMA_API_KEY: "ollama-test-key" }), [providers[1]]);
+  assert.deepEqual(getChatProviders({ LLM_API_KEY: " groq-test-key ", OLLAMA_API_KEY: "ollama-test-key" }).map(({name, model}) => ({name, model})), [
+    { name: "groq", model: "openai/gpt-oss-20b" },
+    { name: "groq", model: "openai/gpt-oss-120b" },
+    { name: "ollama", model: "gemma4:31b" },
+  ]);
+  assert.deepEqual(getChatProviders({ OLLAMA_API_KEY: "ollama-test-key" }), [{ ...providers[1], model: "gemma4:31b" }]);
   assert.deepEqual(getChatProviders({ LLM_API_KEY: " " }), []);
   assert.equal(getChatProviders({ LLM_API_KEY: "key", LLM_REVIEW_MODEL: "custom" })[0].model, "custom");
+});
+
+test("model fallback lists are deduplicated, bounded and can be disabled", () => {
+  const env = { LLM_API_KEY: "key", LLM_REVIEW_MODEL: "openai/gpt-oss-20b", LLM_FALLBACK_MODELS: "openai/gpt-oss-20b, openai/gpt-oss-120b, other" };
+  assert.deepEqual(getChatProviders(env).map(({model}) => model), ["openai/gpt-oss-20b", "openai/gpt-oss-120b"]);
+  assert.equal(getChatProviders({ ...env, LLM_FALLBACK_MODELS: "" }).length, 1);
+});
+
+test("quota errors advance through Groq models before switching to Ollama", async () => {
+  const configured = getChatProviders({ LLM_API_KEY: "groq-test-key", OLLAMA_API_KEY: "ollama-test-key" });
+  const attempted = [];
+  const reply = await generateReply({ ...config, providers: configured, fetcher: async (url, options) => {
+    attempted.push(JSON.parse(options.body).model);
+    return url.includes("groq.com") ? new Response(null, { status: 429 }) : ollamaResponse();
+  } });
+  assert.equal(reply, "Ollama 답변");
+  assert.deepEqual(attempted, ["openai/gpt-oss-20b", "openai/gpt-oss-120b", "gemma4:31b"]);
+});
+
+test("context selection keeps the catalogue, retrieves relevant evidence and respects its byte budget", () => {
+  const context = JSON.stringify({ profile: { name: "이종혁" }, skills: [], projects: [
+    { name: "노후하우", url: "/projects/knowwhohow", summary: "금융상품 추천", chapters: [{ title: "CDC 재처리", description: "lease 만료 후 재처리", blocks: [{ heading: "복구", items: ["변경 재반영 확인"] }] }] },
+    { name: "COLLABO", url: "/projects/collabo", summary: "인플루언서 추천", chapters: [{ title: "대용량 원고", blocks: [{ items: ["다른 프로젝트 ".repeat(4000)] }] }] },
+  ] });
+  const selected = selectPortfolioContext(context, [{ role: "user", content: "CDC 중단 복구는 어떻게 하나요?" }]);
+  assert.ok(Buffer.byteLength(selected) <= MAX_CONTEXT_BYTES);
+  assert.match(selected, /lease 만료 후 재처리/);
+  assert.doesNotMatch(selected, /다른 프로젝트/);
+  assert.equal(JSON.parse(selected).projects.length, 2);
+  assert.equal(selectPortfolioContext("자료", messages), "자료");
+});
+
+test("long history keeps the latest question intact and drops complete old pairs", async () => {
+  const history = [
+    { role: "user", content: "가".repeat(1000) }, { role: "assistant", content: "나".repeat(1000) },
+    { role: "user", content: "CDC를 설명해줘" }, { role: "assistant", content: "변경 데이터 캡처입니다." },
+    { role: "user", content: "중단되면?" },
+  ];
+  await generateReply({ ...config, messages: history, fetcher: async (_, options) => {
+    assert.deepEqual(JSON.parse(options.body).messages.slice(1), history.slice(2));
+    return groqResponse();
+  } });
 });
 
 test("accepts follow-up questions and strips extra client fields", () => {
