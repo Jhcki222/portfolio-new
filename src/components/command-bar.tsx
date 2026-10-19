@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { navigationSections } from "@/lib/navigation";
 import type { ChatMessage } from "@/lib/chat-service";
 import ChatAnswer from "@/components/chat-answer";
+import LatticeLoader from "@/components/react-bits/LatticeLoader";
 
 const questions = ["어떤 개발자인가요?", "대표 프로젝트를 소개해 주세요", "사용하는 기술 스택은?", "연락처를 알려주세요"];
 
@@ -89,7 +90,7 @@ export default function CommandBar() {
             <span className="chat-speaker">{role === "user" ? "방문자" : "포트폴리오 챗봇"}</span>
             {role === "assistant" ? <ChatAnswer content={content} /> : <p>{content}</p>}
           </div>)}
-          {pending && <p className="chat-pending" role="status">포트폴리오를 살펴보고 있어요…</p>}
+          {pending && <div className="chat-pending"><LatticeLoader label="포트폴리오를 살펴보고 있어요" color="#315f84" pattern="orbit" showTimer={false} cellSize={4} /></div>}
         </div>
         {error && <div className="chat-error" role="alert"><p>{error}</p><button type="button" onClick={() => void send("", true)} disabled={pending}>다시 시도</button><button type="button" onClick={reset}>새 대화</button></div>}
         <p className="chat-disclaimer">AI 답변은 부정확할 수 있어요. 자세한 내용은 프로젝트 페이지에서 확인해 주세요.</p>
@@ -101,7 +102,7 @@ export default function CommandBar() {
         </span>
         <input ref={inputRef} id="portfolio-command" value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && event.nativeEvent.isComposing) event.preventDefault(); }} type="text" autoComplete="off" maxLength={2000} placeholder="저에 대해 궁금한 점을 물어보세요" disabled={pending || !!error} onFocus={() => { if (messages.length || error) setOpen(true); }} />
         <button type="submit" disabled={pending || !!error || !input.trim()} aria-label={pending ? "답변 작성 중" : "질문 보내기"}>
-          {pending ? <svg className="chat-send-loading" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8" strokeOpacity=".25" /><path d="M12 4a8 8 0 0 1 8 8" strokeLinecap="round" /></svg> : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 18V6m-5 5 5-5 5 5" /></svg>}
+          {pending ? <span className="chat-send-lattice" aria-hidden="true"><LatticeLoader label="" showTimer={false} cellSize={3} gap={2} /></span> : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 18V6m-5 5 5-5 5 5" /></svg>}
         </button>
       </form>
       <div className="chat-question-list" aria-label="추천 질문">

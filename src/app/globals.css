@@ -108,36 +108,10 @@ input {
   white-space: nowrap;
 }
 
-.brand-mark {
-  flex-shrink: 0;
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  background: #111113;
-  border-radius: 50%;
-}
-
-.brand-mark::before,
-.brand-mark::after {
-  content: "";
-  position: absolute;
-  border-radius: 999px;
-}
-
-.brand-mark::before {
-  width: 14px;
-  height: 14px;
-  border: 2px solid #ffffff;
-}
-
-.brand-mark::after {
-  width: 5px;
-  height: 5px;
-  background: #8fc8ff;
-  transform: translate(6px, -6px);
-}
+.brand-name { position: relative; width: 186px; height: 36px; }
+.brand-text-fallback { position: absolute; inset: 0; display: flex; align-items: center; padding-left: 9px; font-size: 17px; font-weight: 800; }
+.brand-name:has(canvas[data-ready="true"]) .brand-text-fallback { visibility: hidden; }
+.header-gooey .gooey-nav__link { font-weight: 600; }
 
 .section-tabs {
   justify-content: center;
@@ -745,6 +719,11 @@ h3 {
   .section-tabs.is-open {
     display: flex;
   }
+
+  .header-gooey, .header-gooey .gooey-nav__stage { width: 100%; }
+  .header-gooey .gooey-nav__list { flex-direction: column; gap: 4px; }
+  .header-gooey .gooey-nav__item { width: 100%; }
+  .header-gooey .gooey-nav__link { width: 100%; padding: 13px 16px; }
 
   .tab-link {
     padding: 13px 14px;

@@ -41,7 +41,7 @@ export const experiences: Experience[] = [
     date: "2024.03 - 2024.12",
     title: "AI 기반 인플루언서 추천 시스템 졸업 프로젝트",
     subtitle: "팀장 수행",
-    description: ["산학협력 프로젝트 팀장, AI 추천, 프론트엔드 개발", "SQL, 벡터 검색 RAG, Recall@5 0.59→0.88"],
+    description: ["산학협력 프로젝트 팀장, 백엔드 개발, AI 추천, 프론트엔드 개발", "광고 조건에 맞는 인플루언서 추천 및 분석 서비스 개발", "졸업 프로젝트 A학점"],
     image: "/assets/졸업프로젝트1.jpg",
     imageAlt: "졸업 프로젝트 활동 사진",
   },

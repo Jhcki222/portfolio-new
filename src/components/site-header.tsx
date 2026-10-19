@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { navigationSections, sectionRoutes, type SectionId } from "@/lib/navigation";
+import TechText from "@/components/react-bits/TechText";
+import GooeyNav from "@/components/react-bits/GooeyNav";
 
 function HeaderNavigation({ pathname }: { pathname: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,35 +59,35 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
       }}
     >
       <Link className="brand" href={sectionRoutes.home} aria-label="홈으로 이동" onClick={() => setIsOpen(false)}>
-        <span className="brand-mark" aria-hidden="true" />
-        <span className="brand-name">LEE JONG HYUCK</span>
+        <div className="brand-name">
+          <span className="brand-text-fallback" aria-hidden="true">LEE JONG HYUCK</span>
+          <TechText text="LEE JONG HYUCK" fontSize={18} fontWeight={800} letterSpacing={0.015}
+            color="#18232d" accentColor="#315f84" align="left" reach={42} strokeWidth={0.8}
+            dashLength={2.5} dashGap={1.5} reveal="letter" specks={0}
+            selection={false} labels={false} draggable={false} sweep={false} clickKick={false} intro="none" />
+        </div>
       </Link>
-      <nav
+      <div
         id="section-tabs"
         className={`section-tabs${isOpen ? " is-open" : ""}`}
-        aria-label="포트폴리오 섹션"
       >
-        {navigationSections.map((section) => (
-          <Link
-            key={section.id}
-            className={`tab-link${activeSection === section.id ? " is-active" : ""}`}
-            href={section.href}
-            aria-current={activeSection === section.id ? "location" : undefined}
-            onClick={(event) => {
+        <GooeyNav items={navigationSections}
+          activeIndex={Math.max(0, navigationSections.findIndex(({id}) => id === activeSection))}
+          onChange={(index) => setActiveSection(navigationSections[index].id)}
+          theme="light" color="#243e56" activeTextColor="#ffffff" size="sm" frame={false}
+          particleCount={6} animationTime={480} spread={32} wobble={0.3} hoverEffect={false}
+          className="header-gooey"
+          onNavigate={(event, item) => {
               setIsOpen(false);
               if (
                 pathname === "/" &&
-                window.location.hash === `#${section.id}` &&
+                window.location.hash === item.href?.slice(1) &&
                 !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
               ) {
-                document.getElementById(section.id)?.scrollIntoView({ block: "start" });
+                document.getElementById(item.href!.slice(2))?.scrollIntoView({ block: "start" });
               }
-            }}
-          >
-            {section.label}
-          </Link>
-        ))}
-      </nav>
+          }} />
+      </div>
       <button
         className="menu-button"
         type="button"

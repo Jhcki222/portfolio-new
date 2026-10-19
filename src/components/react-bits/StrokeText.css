@@ -1,0 +1,17 @@
+.stroke-text { position: relative; display: inline-block; line-height: 1.12; white-space: nowrap; }
+.stroke-text__fallback { display: inline-block; }
+.stroke-text.is-ready .stroke-text__fallback { visibility: hidden; }
+.stroke-text__svg { position: absolute; top: 50%; left: 0; width: 100%; height: auto; transform: translateY(-50%); overflow: visible; visibility: hidden; }
+.stroke-text.is-ready .stroke-text__svg { visibility: visible; }
+.stroke-text__stroke { color: #284e70; letter-spacing: -.035em; }
+.stroke-text__fill { letter-spacing: -.035em; }
+.stroke-text.is-ready .stroke-text__stroke tspan { stroke-dasharray: 800; stroke-dashoffset: 800; animation: stroke-draw 1.05s ease-out var(--stroke-delay, 0s) both; }
+.stroke-text__wipe { transform: scaleX(0); transform-origin: left; }
+.stroke-text.is-ready .stroke-text__wipe { animation: stroke-fill .5s cubic-bezier(.65, 0, .35, 1) var(--stroke-fill-delay, 1.5s) both; }
+@keyframes stroke-draw { to { stroke-dashoffset: 0; } }
+@keyframes stroke-fill { to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .stroke-text.is-ready .stroke-text__fallback { visibility: visible; }
+  .stroke-text.is-ready .stroke-text__svg { display: none; }
+  .stroke-text.is-ready :is(tspan, .stroke-text__wipe) { animation: none; }
+}
