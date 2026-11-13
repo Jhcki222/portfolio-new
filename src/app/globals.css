@@ -2,7 +2,7 @@
   --color-white: #ffffff;
   --color-paper: #f5f5f7;
   --color-ink: #111113;
-  --color-muted: #6e6e73;
+  --color-muted: #4d515a;
   --color-dark: #000000;
   --color-dark-soft: #111111;
   --color-line: rgba(0, 0, 0, 0.1);
@@ -23,6 +23,7 @@ html {
 body {
   margin: 0;
   color: var(--color-ink);
+  font-size: 17px;
   background: var(--color-white);
   font-family:
     Inter,
@@ -103,13 +104,13 @@ input {
 
 .brand {
   gap: 12px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   white-space: nowrap;
 }
 
 .brand-name { position: relative; width: 186px; height: 36px; }
-.brand-text-fallback { position: absolute; inset: 0; display: flex; align-items: center; padding-left: 9px; font-size: 17px; font-weight: 800; }
+.brand-text-fallback { position: absolute; inset: 0; display: flex; align-items: center; padding-left: 9px; font-size: 18px; font-weight: 800; }
 .brand-name:has(canvas[data-ready="true"]) .brand-text-fallback { visibility: hidden; }
 .header-gooey .gooey-nav__link { font-weight: 600; }
 
@@ -122,7 +123,7 @@ input {
   padding: 8px 13px;
   color: var(--color-muted);
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   transition:
     color 180ms ease,
@@ -141,7 +142,7 @@ input {
   justify-content: flex-end;
   gap: 18px;
   color: var(--color-ink);
-  font-size: 13px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -211,7 +212,7 @@ input {
 .eyebrow {
   margin: 0 0 18px;
   color: var(--color-muted);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.08em;
 }
@@ -259,7 +260,7 @@ h3 {
   padding: 11px 20px;
   border: 1px solid transparent;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   transition:
     transform 160ms ease,
@@ -311,7 +312,7 @@ h3 {
 .section-dark .eyebrow,
 .section-dark p,
 .section-dark .timeline-date {
-  color: rgba(255, 255, 255, 0.66);
+  color: rgba(255, 255, 255, 0.84);
 }
 
 .about-grid {
@@ -355,14 +356,14 @@ h3 {
 
 .profile-card span,
 .profile-card a {
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .about-panel p,
 .timeline-card p,
 .contact-inner p {
   color: inherit;
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.75;
 }
 
@@ -425,12 +426,12 @@ h3 {
 
 .publication-panel .publication-meta {
   margin: 10px 0 12px;
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 15px;
 }
 
 .timeline-list dt {
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .timeline-list dd {
@@ -452,7 +453,7 @@ h3 {
   color: rgba(255, 255, 255, 0.82);
   border: 1px solid var(--color-line-dark);
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .timeline {
@@ -484,14 +485,14 @@ h3 {
   min-width: 0;
 }
 
-.timeline-highlights { display: grid; gap: 6px; margin: 0; padding-left: 18px; color: var(--color-muted); font-size: 14px; line-height: 1.75; }
+.timeline-highlights { display: grid; gap: 6px; margin: 0; padding-left: 18px; color: var(--color-muted); font-size: 15px; line-height: 1.75; }
 .timeline-highlights li::marker { color: #557b9a; }
-.profile-points { display: grid; gap: 7px; padding-left: 18px; margin: 0; color: rgba(255,255,255,.82); font-size: 15px; line-height: 1.75; }
+.profile-points { display: grid; gap: 7px; padding-left: 18px; margin: 0; color: rgba(255,255,255,.82); font-size: 16px; line-height: 1.75; }
 
 .timeline-card .timeline-subtitle {
   margin: 0 0 14px;
   color: var(--color-muted);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   line-height: 1.5;
 }
@@ -642,7 +643,7 @@ h3 {
 
 .contact-icon-card span {
   color: rgba(255, 255, 255, 0.82);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
 }
 
@@ -657,7 +658,7 @@ h3 {
   padding: 22px clamp(20px, 4vw, 54px);
   color: var(--color-muted);
   background: var(--color-paper);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
 }
 
@@ -764,7 +765,7 @@ h3 {
   }
 
   .brand-name {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .section-inner {
@@ -834,4 +835,15 @@ h3 {
     width: 52px;
     height: 52px;
   }
+}
+
+.inline-technical {
+  padding: 0.12em 0.34em;
+  border-radius: 4px;
+  background: #f2f1ef;
+  color: #a53240;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.9em;
+  font-weight: inherit;
+  overflow-wrap: anywhere;
 }

@@ -1,0 +1,7 @@
+const names = /(`[^`]+`|(?<![\w])(?:GET|POST|PATCH|PUT|DELETE) \/[\w/{}.-]+|@[A-Za-z_]\w*(?:\([^()\r\n]*\))?|[$][a-z]+|\b[a-z]+\.[a-zA-Z]+(?:\.[a-zA-Z]+)*\b|(?<![\w])(?:OAuth2 Authorization Code|MongoDB Atlas|GitHub API|Notion API|Meta Graph API|Web Speech API|LangGraph|ReportService|StudySolution|next_cursor|rag_text|user_id|readOnly|sessionStorage|localStorage|Promise|Route Handler|Markdown|Pydantic|Recall@\d+|[nN][dD][cC][gG]@\d+|ROUGE-1 F1|Lighthouse|LCP|RSA|JVM|WebFlux|MVC|SSE|REST|API|Java|SQL|DAG|CI|JD|PDF|DOCX|OCR|HTTP|RWR|LIS|QA|VU|binlog|snapshot|backfill|lease|offset|reconcile|tombstone|refresh)(?![\w])|Spring Authorization Server|Spring Boot|Spring MVC|Spring WebFlux|Web Speech API|HMAC-SHA256|SHA-256|AES\/GCM|REPEATABLE READ|WHERE IN|Next\.js|Node\.js|FastAPI|PostgreSQL|MongoDB|MySQL|OAuth2|JWT|Redis|HAProxy|Jenkins|SonarQube|JaCoCo|QueryDSL|JPA|Kafka|Debezium|Airflow|OpenCV|Python|TypeScript|JavaScript|React|Kotlin|LangChain|Supabase|SSE|LLM|RAG|FAISS|Grafana|JMeter|Readability|Content Script|Service Worker|Chrome Extension|GitHub|Notion|Docker|AWS|REST API|WebClient|JSON|LocalStorage|AbstractRoutingDataSource|LazyConnectionDataSourceProxy|AttributeConverter|Access Token|Bloom Filter|Gale–Shapley|Minchunk|VQA|Qwen|k6|CDC|DTO|TTL)/g;
+
+export default function TechnicalText({ text }: { text: string }) {
+  return text.split(names).map((part, index) =>
+    index % 2 ? <code className="inline-technical" key={index}>{part.startsWith("`") ? part.slice(1, -1) : part}</code> : part,
+  );
+}

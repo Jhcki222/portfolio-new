@@ -54,26 +54,26 @@ for (const [slug, name] of projectPages) {
     if (slug === "knowwhohow") {
       assert.match(main, /42%/);
       assert.doesNotMatch(main, /약 50%/);
-      for (const phrase of ["Debezium", "임베딩만 다시 시도", "5개 시나리오", "49/53", "92.5%", "만료 상품", "임베딩 누락"]) assert.ok(main.includes(phrase));
+      for (const phrase of ["Debezium", "49/53", "92.5%", "만료 상품", "임베딩 누락"]) assert.ok(main.includes(phrase));
       assert.doesNotMatch(main, /2026|후속 고도화/);
       assert.doesNotMatch(main, /서로 다른 실험입니다|작은 fixture|확대하지 않았습니다/);
       assert.ok(anchors.indexOf("mydata") < anchors.indexOf("recommendation-search"));
       assert.ok(anchors.indexOf("project-role") < anchors.indexOf("project-architecture"));
       assert.ok(anchors.indexOf("project-architecture") < anchors.indexOf("mydata"));
       for (const image of ["on-premise-architecture", "aws-cloud-architecture", "service-recommendation"]) {
-        assert.ok(main.includes(`href="/projects/knowwhohow/${image}.png"`), `${image} must appear in the project story`);
+        assert.ok(main.includes(`data-image-src="/projects/knowwhohow/${image}.png"`), `${image} must appear in the project story`);
       }
     }
     if (slug === "collabo") {
       for (const value of ["Recall@5", "0.59", "0.88", "ROUGE-1 F1", "0.46", "0.72", "nDCG@5", "0.61", "0.74"]) assert.ok(main.includes(value));
       assert.doesNotMatch(main, /30% 이상 개선/);
     }
-    if (slug === "easyreader") assert.ok(main.includes('href="/projects/easyreader/store-listing.png"'), "EasyReader shows the supplied store screenshot");
+    if (slug === "easyreader") assert.ok(main.includes('data-image-src="/projects/easyreader/store-listing.png"'), "EasyReader shows the supplied store screenshot");
     if (slug === "study-review") for (const phrase of ["6명", "SHA-256", "JSON", "Promise", "Notion", "GitHub"]) assert.ok(main.includes(phrase));
     for (const id of anchors) {
       assert.equal(main.split(`id="${id}"`).length - 1, 1, `Contents target ${id} must exist exactly once`);
     }
-    for (const [, source] of main.matchAll(/<a\b[^>]*href="(\/projects\/[^"#]+\.(?:png|gif))"/g)) {
+    for (const [, source] of main.matchAll(/<button\b[^>]*data-image-src="(\/projects\/[^"#]+\.(?:png|gif|svg))"/g)) {
       const asset = await fetch(`${baseUrl}${source}`);
       assert.equal(asset.status, 200, `Source figure ${source} must open`);
       assert.match(asset.headers.get("content-type"), /^image\//);

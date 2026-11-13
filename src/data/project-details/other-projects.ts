@@ -33,7 +33,7 @@ export const easyreader: Project = {
       "title": "읽기 어려운 웹페이지를 요약과 음성으로 제공",
       "blocks": [
         {
-          "heading": "본문을 가져오지 못했을 때",
+          "heading": "웹페이지 본문을 가져와 요약하고 읽어주기",
           "items": [
             "Content Script에서 Readability로 본문을 추출했습니다. 추출이 실패하면 body.innerText로 대체해 요약을 요청할 수 있도록 했습니다. 이 경로에서는 메뉴 텍스트도 섞일 수 있습니다.",
             "추출한 본문은 Service Worker 메시지로 전달하고, React 사이드 패널에서 요약을 표시했습니다. Web Speech API로 읽기 기능을 붙이고 글자 크기와 고대비도 조절할 수 있게 했습니다."
@@ -179,7 +179,7 @@ export const cardRecommendation: Project = {
       "title": "답변이 생성되는 동안 SSE로 전달",
       "blocks": [
         {
-          "heading": "Spring을 통한 응답 중계",
+          "heading": "생성 중인 답변과 카드 상세를 순서대로 전달",
           "items": [
             "FastAPI의 LangChain RAG 응답을 Spring WebFlux의 WebClient로 받아 SSE로 중계했습니다.",
             "생성 완료 후 카드명을 파싱해 MongoDB에서 상세 정보를 조회하고 JSON으로 전달했습니다.",
@@ -273,56 +273,60 @@ export const delishare: Project = {
   ],
   "links": [],
   "overview": [
-    "팀장으로 프론트엔드와 백엔드 개발 참여, Kotlin 앱의 React 웹 전환"
+    "팀장으로 앱의 웹 전환과 매칭 로직 개선을 맡았습니다."
   ],
   "chapters": [
     {
       "id": "matching",
       "nav": "매칭 후보 탐색 줄이기",
-      "title": "같은 브랜드 주문만 매칭 후보로 조회",
+      "title": "같은 브랜드의 주문끼리 매칭",
       "blocks": [
         {
-          "heading": "후보 제한과 부하 비교",
+          "heading": "주문이 들어온 브랜드의 대기열만 확인",
           "items": [
-            "전체 후보를 비교하던 방식에서 동일 브랜드별 큐를 조회하도록 변경했습니다.",
-            "Bloom Filter는 포함 가능성을 확인하는 용도로 사용했습니다. 양성 응답만으로 매칭이 확정되지는 않습니다."
+            "주문이 들어오면 해당 브랜드의 `Queue`에서만 후보를 찾도록 바꿨습니다. 이미 매칭된 주문자인지 확인할 때는 `Bloom Filter`자료구조를 사용했습니다."
           ]
+        },
+        {
+          "heading": "Bloom Filter란?",
+          "items": [
+            "`Bloom Filter`는 어떤 값이 집합에 들어 있는지 적은 메모리로 빠르게 확인하는 자료구조입니다. 값을 추가할 때 여러 해시가 가리키는 칸을 1로 표시합니다. 조회할 때 0인 칸이 하나라도 있으면 해당 값은 없고, 모두 1이면 들어 있을 가능성이 있습니다. DeliShare에서는 이미 매칭된 주문자를 확인할 때 이 필터를 먼저 사용했습니다."
+          ],
+          "figure": {
+            "src": "/projects/delishare/bloom-filter.png",
+            "width": 1446,
+            "height": 972,
+            "alt": "두 값의 해시가 비트 배열의 여러 칸을 가리키는 그림",
+            "caption": ""
+          }
         }
       ],
       "metrics": {
         "caption": "JMeter 매칭 요청 3,000건 비교",
         "columns": [
           "측정 항목",
-          "기존 구현",
-          "개선 구현"
+          "기존 속도",
+          "개선 속도"
         ],
         "rows": [
           [
-            "평균 매칭 처리 시간",
+            "평균 응답시간",
             "1,745 ms",
             "81 ms"
           ]
         ]
       },
-      "description": "Kotlin 앱을 React 웹으로 옮기면서 매칭 로직도 손봤습니다. 기존 Gale–Shapley 방식은 주문이 늘수록 비교할 후보가 많아졌습니다. 같은 브랜드끼리 주문을 묶으면 매번 전체 후보를 훑을 필요가 없었습니다.",
-      "outcome": "JMeter로 매칭 요청 3,000건을 실행했을 때 평균 응답시간이 1,745ms에서 81ms로 줄었습니다."
+      "description": "기존 `Gale–Shapley` 기반 구현은 주문이 쌓일수록 같은 후보를 여러 번 확인했습니다. 공동 주문은 같은 브랜드끼리만 성립하므로, 처음부터 브랜드가 다른 주문을 비교 대상에서 뺐습니다.",
+      "outcome": "변경 전후에 `JMeter`로 매칭 요청을 각각 3,000건 실행했습니다. 평균 응답시간은 1,745ms에서 81ms로 약 95% 줄었습니다."
     }
   ],
-  "description": "같은 브랜드의 배달을 함께 주문할 사용자를 연결하는 서비스입니다. 앱의 웹 전환 과정에서 매칭 후보 탐색을 수정하고 응답시간을 비교했습니다.",
+  "description": "같은 브랜드에서 배달을 주문하려는 사람을 모아 공동 주문으로 연결하는 서비스입니다. 기존 앱을 웹으로 옮기면서, 주문이 쌓일수록 느려지는 매칭 로직을 함께 손봤습니다.",
   "highlights": [
-    "Kotlin 앱에서 React 웹으로 전환",
-    "브랜드별 큐로 매칭 후보 제한"
+    "매칭 요청 3,000건에서 평균 응답시간 1,745ms → 81ms",
+    "브랜드별 대기열과 Bloom Filter 적용"
   ],
   "contributions": [
-    "Kotlin 앱의 기능을 React 웹으로 전환하는 개발에 참여했습니다.",
-    "브랜드별 큐와 Bloom Filter로 매칭 후보 탐색 범위를 줄였습니다.",
-    "JMeter 총 3,000건 요청으로 변경 전후 평균 응답시간을 비교했습니다."
-  ],
-  "architecture": {
-    "title": "브랜드별 주문 요청 매칭",
-    "items": [
-      "React 웹 화면 → Spring Boot 매칭 요청 → 동일 브랜드 큐에서 후보 탐색",
-      "Bloom Filter는 후보 포함 가능성을 확인하는 필터로 사용"
-    ]
-  }
+    "팀장으로 기존 `Kotlin` 앱을 `React` 웹으로 옮기는 작업에 참여하고, 주문 화면과 백엔드 매칭 로직을 개발했습니다.",
+    "브랜드별 대기열로 비교 범위를 좁히고, `JMeter`로 개선 전후의 응답시간을 측정했습니다."
+  ]
 };

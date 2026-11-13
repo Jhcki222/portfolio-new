@@ -36,7 +36,7 @@ export const pixelArtScaling: Project = {
       "title": "이미지 크기의 공약수로 블록 후보 줄이기",
       "blocks": [
         {
-          "heading": "탐색 범위 축소와 정수 블록 선택",
+          "heading": "공약수로 블록 크기를 찾고 정수 격자로 확대",
           "items": [
             "공약수로 제한한 후보에서 고유 블록과 최소 격자를 탐지하고 최근접 이웃 방식으로 재구성했습니다.",
             "Brute-Force와의 비교 기록에서 블록 탐지시간을 90% 이상 줄였습니다.",
@@ -61,7 +61,7 @@ export const pixelArtScaling: Project = {
       "title": "모듈별 출력 차이를 공통 테스트로 검증",
       "blocks": [
         {
-          "heading": "변인별 입력과 기대값",
+          "heading": "같은 이미지로 모듈별 출력 비교",
           "items": [
             "투명도, 노이즈, 해상도 등 변인별로 각각 50개 테스트와 기대값을 작성했습니다.",
             "공통 기준으로 모듈을 검증한 뒤 추가 결과 불일치 없이 통합했습니다.",
@@ -78,7 +78,7 @@ export const pixelArtScaling: Project = {
         "caption": "Applied Sciences, 2026, 16, 2314에 게재된 논문"
       },
       "description": "각자 만든 모듈을 합쳐 보니 같은 이미지도 투명도나 노이즈, 해상도를 처리하는 방식에 따라 출력이 달랐습니다. 어느 단계에서 달라지는지 찾으려고 같은 입력 이미지와 기대값을 정했습니다.",
-      "outcome": "조건별 공통 테스트로 출력 차이를 맞췄고, 연구 결과를 Applied Sciences에 공동 게재했습니다."
+      "outcome": "공통 테스트로 모듈마다 다르던 출력을 확인했고, 연구 결과를 Applied Sciences에 공동 게재했습니다."
     }
   ],
   "description": "픽셀 아트의 블록 크기를 탐지하고 격자를 재구성하는 연구입니다. Python, OpenCV 구현, 테스트와 논문 공동 작성에 참여했습니다.",

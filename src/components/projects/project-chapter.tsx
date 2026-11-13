@@ -1,3 +1,4 @@
+import TechnicalText from "@/components/technical-text";
 import ProjectFigure from "@/components/projects/project-figure";
 import type { ProjectChapter as Chapter } from "@/data/project-details/types";
 
@@ -5,12 +6,12 @@ export default function ProjectChapter({ chapter }: { chapter: Chapter }) {
   return (
     <section className="project-chapter" aria-labelledby={chapter.id}>
       <h2 id={chapter.id}>{chapter.title}</h2>
-      {chapter.description && <p className="project-intro">{chapter.description}</p>}
+      {chapter.description && <p className="project-intro"><TechnicalText text={chapter.description} /></p>}
       <div className="project-chapter-blocks">
         {chapter.blocks.map((block) => (
           <div key={block.heading} className="project-prose">
             <h3>{block.heading}</h3>
-            {block.items.length > 0 && <p>{block.items.join(" ")}</p>}
+            {block.items.length > 0 && <p><TechnicalText text={block.items.join(" ")} /></p>}
             {block.figure && <ProjectFigure figure={block.figure} />}
           </div>
         ))}
@@ -31,7 +32,7 @@ export default function ProjectChapter({ chapter }: { chapter: Chapter }) {
           {chapter.metrics.note && <p id={`${chapter.id}-metric-note`} className="project-note">{chapter.metrics.note}</p>}
         </div>
       )}
-      {chapter.outcome && <p className="project-outcome">{chapter.outcome}</p>}
+      {chapter.outcome && <p className="project-outcome"><TechnicalText text={chapter.outcome} /></p>}
       {chapter.figure && <ProjectFigure figure={chapter.figure} />}
       {chapter.figures && (
         <div className="project-figure-grid">

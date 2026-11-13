@@ -51,11 +51,11 @@ export const collabo: Project = {
     {
       "id": "influencer-report",
       "nav": "분석 리포트 API",
-      "title": "후보 비교에 필요한 정보를 리포트 API로 구성",
+      "title": "후보 비교에 필요한 정보를 리포트로 제공",
       "description": "광고주가 후보를 한 화면에서 비교할 수 있게 리포트 API를 만들었습니다. 프로필과 게시물은 따로 저장돼 있어서, 조회할 때 해시태그와 평균 좋아요·댓글 수를 함께 묶었습니다.",
       "blocks": [
         {
-          "heading": "관계 모델과 읽기 전용 조회",
+          "heading": "프로필과 게시물을 함께 조회",
           "items": [
             "Influencer를 기준으로 게시물 Media와 수집 시점별 Meta를 연결하고, 게시물의 이미지와 해시태그를 별도 관계로 모델링했습니다.",
             "GET /api/v1/reports/{influencerId}에서 프로필, 게시물, 해시태그, 평균 좋아요와 댓글 수, 업로드 지표를 반환합니다.",
@@ -63,13 +63,29 @@ export const collabo: Project = {
           ]
         },
         {
-          "heading": "집계와 응답 계약",
+          "heading": "좋아요와 댓글 수를 집계해 리포트에 표시",
           "items": [
             "QueryDSL로 DB 등록일 기준 최근 1년의 게시물을 주차별로 묶고, 게시물이 있는 주를 기준으로 평균 건수를 계산합니다.",
             "게시물은 좋아요와 댓글 수 합으로 정렬하고, 해시태그는 중복을 제거해 리포트에 담았습니다.",
             "ApiResponse와 공통 예외 처리로 응답 형식을 통일하고 존재하지 않는 인플루언서의 조회 오류를 처리했습니다.",
             "연관관계 저장과 조회, 리포트의 프로필 매핑을 확인하는 SpringBootTest 코드를 작성했습니다."
           ]
+        }
+      ],
+      "figures": [
+        {
+          "src": "/projects/collabo/post-report.png",
+          "width": 1920,
+          "height": 3241,
+          "alt": "인기 게시물, 광고 게시물 비율, 팔로워 추이가 표시된 리포트",
+          "caption": "게시물 분석 리포트"
+        },
+        {
+          "src": "/projects/collabo/hashtag-report.png",
+          "width": 1920,
+          "height": 2730,
+          "alt": "해시태그 사용 빈도와 좋아요·댓글 집계를 보여주는 리포트",
+          "caption": "해시태그 분석 리포트"
         }
       ]
     },
@@ -79,7 +95,7 @@ export const collabo: Project = {
       "title": "데이터 수집 제약에 맞춰 추천 구조를 RAG로 변경",
       "blocks": [
         {
-          "heading": "초기 알고리즘 구상과 구조 변경",
+          "heading": "API 정책 변경에 맞춰 추천 방식 변경",
           "items": [
             "해시태그의 동시 출현 빈도로 그래프를 구성하고 RWR 기반 후보 순위와 평가 코드를 실험했습니다.",
             "팔로워의 성별과 연령 등 수집할 수 있는 데이터가 제한돼 추천 기준을 재정의하고, SQL 후보 조회와 QA 검색 결과를 LLM에 전달하는 구조로 전환했습니다."
@@ -90,10 +106,17 @@ export const collabo: Project = {
           "items": [
             "FastAPI의 /update에서 등록된 계정을 조회하고 Instagram Graph API의 business_discovery로 프로필과 최근 게시물을 수집합니다.",
             "게시물의 캡션, 작성일, 좋아요와 댓글 수를 media에 저장하고 팔로워 수와 평균 반응을 수집일별 meta에 기록합니다."
-          ]
+          ],
+          "figure": {
+            "src": "/projects/collabo/collected-influencers.png",
+            "width": 1433,
+            "height": 747,
+            "alt": "소개, 카테고리, 계정 식별자와 이름이 저장된 인플루언서 데이터 테이블",
+            "caption": "수집한 인플루언서 프로필 데이터"
+          }
         },
         {
-          "heading": "정형 조건과 자연어 요구 분리",
+          "heading": "수치 조건은 SQL로, 캠페인 설명은 벡터 검색으로 조회",
           "items": [
             "팔로워 수처럼 명확한 조건은 PostgreSQL에서 후보를 조회했습니다.",
             "자연어 요구를 하위 질문으로 분해하고 관련 QA를 FAISS에서 검색했습니다.",
@@ -143,7 +166,7 @@ export const collabo: Project = {
       "title": "광고 요구에 맞춘 QA 검색과 후보 비교 화면",
       "blocks": [
         {
-          "heading": "검색 자료 구축과 화면 응답",
+          "heading": "추천에 쓸 사례를 만들고 후보 비교 화면 구현",
           "items": [
             "GPT-4o로 인플루언서 특성과 광고 요구를 조합한 QA 1,000건 이상을 구축했습니다.",
             "LangChain과 FAISS로 QA를 검색하고 SQL 후보 데이터와 함께 답변 생성에 사용했습니다.",

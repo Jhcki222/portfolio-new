@@ -27,7 +27,7 @@ export const aiInterview: Project = {
       description: "면접관은 답변을 듣고 더 물을지 판단합니다. 이 흐름을 구현하려고 모델에는 답변 평가를 맡기고, 어떤 질문을 이어갈지는 검증한 점수와 면접 상태를 바탕으로 코드에서 정했습니다.",
       blocks: [
         {
-          heading: "점수와 면접 상태로 다음 단계 결정",
+          heading: "어떤 답변에 꼬리질문을 할지 결정",
           items: [
             "정확성, 논리성, 구체성, 질문 적합성, 실무 적용성의 점수와 근거를 검증합니다. 가장 낮은 점수가 70점 미만이고 꼬리질문을 두 번 미만 사용했다면, 부족한 부분을 다시 묻도록 제안합니다.",
             "모든 지표가 70점 이상이거나 꼬리질문을 두 번 사용했다면 다음 질문을 제안합니다. 더 진행할 질문이 없거나 전체 턴 한도에 도달하면 종합 평가로 넘어갑니다. 제안은 사용자가 확인한 뒤 실행됩니다.",
@@ -57,7 +57,7 @@ export const aiInterview: Project = {
     {
       id: "adaptive-followup",
       nav: "답변과 평가",
-      title: "생성된 질문에 답하고 평가 확인",
+      title: "답변을 제출하면 다섯 항목으로 평가",
       description: "답변은 직접 쓰거나 음성으로 입력합니다. 에이전트는 답변을 정확성, 논리성, 구체성, 질문 적합성, 실무 적용성으로 평가합니다. 다섯 항목이 모두 70점 이상이고 남은 질문이 있으면 다음 질문을 제안합니다.",
       blocks: [],
       figures: [
@@ -69,7 +69,7 @@ export const aiInterview: Project = {
     {
       id: "interview-summary",
       nav: "종합 평가",
-      title: "면접을 마치고 보완할 부분 정리",
+      title: "종합 평가에서 다음 연습 항목 확인",
       description: "지금까지의 답변에서 잘한 점과 먼저 보완할 점을 정리하고, 다음 연습에 쓸 학습 계획을 제시합니다.",
       blocks: [],
       figures: [
@@ -79,7 +79,7 @@ export const aiInterview: Project = {
     {
       id: "question-library",
       nav: "질문 학습과 기록",
-      title: "질문을 모아 두고 다시 연습",
+      title: "기업별 질문 저장과 학습 기록 확인",
       description: "카테고리별로 질문을 찾거나 무작위로 뽑아 연습합니다. 로그인하면 기업별로 질문을 모으고 학습 현황을 확인할 수 있습니다.",
       blocks: [],
       figures: [

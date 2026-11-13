@@ -1,3 +1,4 @@
+import TechnicalText from "@/components/technical-text";
 import Link from "next/link";
 import ProjectTags from "@/components/projects/project-tags";
 import ProjectChapter from "@/components/projects/project-chapter";
@@ -72,8 +73,8 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
           <article className="project-story" aria-label={`${project.name} 상세 설명`}>
             <section className="project-overview" aria-labelledby="project-overview">
               <h2 id="project-overview">프로젝트 소개</h2>
-              {project.description && <p className="project-intro">{project.description}</p>}
-              <ul className="project-points">{project.overview.map((item) => <li key={item}>{item}</li>)}</ul>
+              {project.description && <p className="project-intro"><TechnicalText text={project.description} /></p>}
+              <ul className="project-points">{project.overview.map((item) => <li key={item}><TechnicalText text={item} /></li>)}</ul>
               {project.cover && <ProjectFigure figure={project.cover} eager />}
               {project.overviewFigures?.map((figure) => <ProjectFigure key={figure.src} figure={figure} />)}
             </section>
@@ -81,7 +82,7 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
             {project.contributions && (
               <section className="project-contributions" aria-labelledby="project-role">
                 <h2 id="project-role">{contributionsTitle}</h2>
-                <ul className="project-points">{project.contributions.map((item) => <li key={item}>{item}</li>)}</ul>
+                <ul className="project-points">{project.contributions.map((item) => <li key={item}><TechnicalText text={item} /></li>)}</ul>
               </section>
             )}
 

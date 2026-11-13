@@ -74,7 +74,7 @@ function HeaderNavigation({ pathname }: { pathname: string }) {
         <GooeyNav items={navigationSections}
           activeIndex={Math.max(0, navigationSections.findIndex(({id}) => id === activeSection))}
           onChange={(index) => setActiveSection(navigationSections[index].id)}
-          theme="light" color="#243e56" activeTextColor="#ffffff" size="sm" frame={false}
+          theme="light" color="#000000" activeTextColor="#ffffff" size="sm" frame={false}
           particleCount={6} animationTime={480} spread={32} wobble={0.3} hoverEffect={false}
           className="header-gooey"
           onNavigate={(event, item) => {
