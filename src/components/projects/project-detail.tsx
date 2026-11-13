@@ -74,6 +74,7 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
               {project.description && <p className="project-intro">{project.description}</p>}
               <ul className="project-points">{project.overview.map((item) => <li key={item}>{item}</li>)}</ul>
               {project.cover && <ProjectFigure figure={project.cover} eager />}
+              {project.overviewFigures?.map((figure) => <ProjectFigure key={figure.src} figure={figure} />)}
             </section>
 
             {project.contributions && (

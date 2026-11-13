@@ -39,6 +39,7 @@ export type Project = {
   description?: string;
   contributions?: string[];
   cover?: ProjectFigure;
+  overviewFigures?: ProjectFigure[];
   architecture?: {
     placement?: "before-chapters" | "after-chapters";
     title: string;

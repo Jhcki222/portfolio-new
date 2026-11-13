@@ -24,12 +24,12 @@ export const easyreader: Project = {
     }
   ],
   "overview": [
-    "크롬 확장 프로그램 프로젝트, Chrome Web Store 등록"
+    "Chrome Web Store 누적 설치 846회 (2026년 11월 10일 기준)"
   ],
   "chapters": [
     {
       "id": "page-integration",
-      "nav": "요약, 음성 읽기와 배포",
+      "nav": "웹페이지 요약과 음성 읽기",
       "title": "읽기 어려운 웹페이지를 요약과 음성으로 제공",
       "blocks": [
         {
@@ -39,16 +39,52 @@ export const easyreader: Project = {
             "LLM으로 핵심 내용과 쉬운 표현을 제공하고 Web Speech API TTS로 읽을 수 있도록 했습니다.",
             "고대비 모드와 글자 크기 조절을 추가해 같은 페이지를 읽는 방식을 선택할 수 있도록 했습니다."
           ]
-        },
-        {
-          "heading": "배포 후 개선",
-          "items": [
-            "Chrome Web Store에 등록했습니다.",
-            "사용자 확인 기준 약 100명 규모의 사용 경험과 댓글을 참고해 요약, 고대비 UI와 글자 크기 조절을 개선했습니다."
-          ]
         }
       ],
       "description": "웹페이지 읽기에 어려움을 겪는 가족이 본문을 쉽게 확인할 수 있도록 요약과 음성 읽기를 제공했습니다. 사이트마다 본문 구조가 달라 Readability 추출이 실패할 때는 body.innerText를 사용하도록 했습니다. 대체 경로에서는 메뉴 같은 부가 텍스트가 함께 포함될 수 있습니다."
+    },
+    {
+      "id": "english-support",
+      "nav": "v1.4 영어 지원",
+      "title": "영어 버전 지원",
+      "description": "v1.4에서 영어 인터페이스와 영어 요약을 추가했습니다. 사이드 패널에서 한국어와 영어를 전환하고, 현재 페이지를 보면서 요약을 확인할 수 있습니다.",
+      "blocks": [
+        {
+          "heading": "영어 사이드 패널",
+          "items": [
+            "요약 버튼, 상태 안내, 읽기 설정을 영어로 표시합니다.",
+            "글자 크기는 네 단계로 조절할 수 있으며 음성 읽기와 고대비 설정도 사이드 패널에서 이용할 수 있습니다."
+          ],
+          "figure": {
+            "src": "/projects/easyreader/english-controls.png",
+            "width": 2427,
+            "height": 1273,
+            "alt": "영어로 표시된 요약 버튼, 음성 읽기, 글자 크기와 고대비 설정",
+            "caption": "v1.4 영어 인터페이스와 읽기 설정"
+          }
+        },
+        {
+          "heading": "영어 요약 결과",
+          "items": [
+            "영어 요약은 개요와 핵심 항목으로 나뉩니다. 각 핵심 항목의 원문 발췌를 열어 요약 내용을 확인할 수 있습니다."
+          ],
+          "figure": {
+            "src": "/projects/easyreader/english-summary.png",
+            "width": 442,
+            "height": 597,
+            "alt": "영어 요약의 개요와 핵심 항목이 표시된 좁은 사이드 패널",
+            "caption": "영어 요약 결과 확대",
+            "portrait": true
+          }
+        }
+      ],
+      "figure": {
+        "src": "/projects/easyreader/english-side-panel.png",
+        "width": 2410,
+        "height": 1274,
+        "alt": "웹페이지 옆 사이드 패널에 개요, 핵심 항목과 원문 발췌 링크가 표시된 화면",
+        "caption": "웹페이지를 보면서 확인하는 영어 요약"
+      }
     }
   ],
   "description": "웹페이지 읽기에 어려움을 겪는 가족을 위해 만든 크롬 확장 프로그램입니다. 본문을 요약하고 음성으로 읽거나, 글자 크기와 대비를 조절할 수 있도록 개발했습니다.",
@@ -60,9 +96,9 @@ export const easyreader: Project = {
     "caption": "Easy Reader 웹스토어 등록 화면"
   },
   "highlights": [
-    "본문 추출 실패 시 대체 경로 구성",
-    "요약과 음성 읽기, 화면 조절 기능 배포",
-    "사용자 약 100명 확보"
+    "Chrome Web Store 설치 800회 돌파",
+    "v1.4 한국어·영어 인터페이스 및 요약 지원",
+    "음성 읽기, 글자 크기 및 고대비 설정"
   ],
   "contributions": [
     "Readability 기반 본문 추출과 추출 실패 시 대체 경로를 구현했습니다.",
@@ -76,7 +112,16 @@ export const easyreader: Project = {
       "Service Worker 메시지 통신으로 React 화면의 요약 요청과 응답 연결",
       "LLM 요약 결과를 표시하고 Web Speech API로 음성 읽기 제공"
     ]
-  }
+  },
+  "overviewFigures": [
+    {
+      "src": "/projects/easyreader/install-milestone.png",
+      "width": 1672,
+      "height": 1098,
+      "alt": "Chrome Web Store 개발자 대시보드에 표시된 설치 수 846회와 설치 추이",
+      "caption": "Chrome Web Store 설치 통계 (2026년 11월 10일까지)"
+    }
+  ]
 };
 
 export const cardRecommendation: Project = {
