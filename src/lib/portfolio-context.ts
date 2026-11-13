@@ -23,8 +23,8 @@ export const portfolioContext = JSON.stringify({
   projects: projects.map(({ slug, name, category, headline, summary, highlights, focus, period, tags, links, overview, description, contributions, architecture, chapters }) => ({
     url: `/projects/${slug}`, name, category, headline, summary, highlights, focus, period, tags, links, overview, description, contributions,
     architecture: architecture && { items: architecture.items, steps: architecture.steps },
-    chapters: chapters.map(({ title, description, blocks, metrics }) => ({
-      title, description, blocks: blocks.map(({ heading, items }) => ({ heading, items })), metrics,
+    chapters: chapters.map(({ title, description, outcome, blocks, metrics }) => ({
+      title, description, outcome, blocks: blocks.map(({ heading, items }) => ({ heading, items })), metrics,
     })),
   })),
 });

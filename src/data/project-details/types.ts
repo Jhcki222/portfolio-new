@@ -11,7 +11,7 @@ export type ProjectMetrics = {
   caption: string;
   columns: [string, string, string];
   rows: [string, string, string][];
-  note: string;
+  note?: string;
 };
 
 export type ProjectChapter = {
@@ -19,8 +19,10 @@ export type ProjectChapter = {
   nav: string;
   title: string;
   description?: string;
+  outcome?: string;
   blocks: { heading: string; items: string[]; figure?: ProjectFigure }[];
   figure?: ProjectFigure;
+  figures?: ProjectFigure[];
   metrics?: ProjectMetrics;
 };
 
@@ -37,6 +39,7 @@ export type Project = {
   links: { label: string; url: string }[];
   overview: string[];
   description?: string;
+  contributionsTitle?: string;
   contributions?: string[];
   cover?: ProjectFigure;
   overviewFigures?: ProjectFigure[];

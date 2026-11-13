@@ -20,7 +20,7 @@ export const experiences: Experience[] = [
     subtitle: "삼성 청년 SW 아카데미",
     description: ["SSAFY 16기 전공 Java 트랙", "Java, Spring Boot, Vue 웹 개발, AI 커리큘럼 학습"],
     highlights: [
-      "Qwen 계열 이미지 VQA 파인튜닝, 추론 조정: Kaggle Score 0.70837 → 0.96812 (Kaggle Score +0.25975)",
+      "Qwen 계열 이미지 VQA 파인튜닝, 추론 조정: Kaggle Score 0.70837 → 0.96812 (Kaggle Score +0.25975) 반 1등",
       "전국 관광 정보 웹서비스와 RAG 관광지 추천 챗봇 개발 팀장, AI 온보딩 1등",
       "알고리즘 스터디 운영과 Notion, GitHub 학습 관리, AI 코드 리뷰 서비스 개발",
     ],

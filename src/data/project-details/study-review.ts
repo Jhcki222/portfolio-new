@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 export const studyReview: Project = {
   "slug": "study-review",
+  contributionsTitle: "서비스 기능",
   "name": "알고리즘 스터디 운영 AI 대시보드",
   "category": "개인 개발, 스터디 운영 자동화",
   "headline": "알고리즘 스터디의 제출 현황과 AI 코드 리뷰 관리",
@@ -42,7 +43,7 @@ export const studyReview: Project = {
     {
       "id": "study-data",
       "nav": "외부 API와 데이터 통합",
-      "title": "두 저장소에 나뉜 제출 코드를 한 화면에 통합",
+      "title": "Notion과 GitHub에서 제출 코드 찾기",
       "figure": {
         "src": "/projects/study-review/code-viewer.png",
         "width": 1555,
@@ -61,7 +62,8 @@ export const studyReview: Project = {
           ]
         }
       ],
-      "description": "Notion에 전략과 후기만 있고 코드는 GitHub에 제출되는 경우가 있어 한 출처만으로는 제출 현황을 확인하기 어려웠습니다. Notion에 코드가 없으면 GitHub에서 찾아 공통 타입으로 정리하고 멤버별 코드와 주차별 진행률을 표시했습니다."
+      "description": "전략과 후기는 Notion에, Java 코드는 GitHub에 올리는 경우가 있었습니다. 매주 누가 어떤 문제를 풀었는지 확인하려고 두 곳을 오갔습니다.",
+      "outcome": "문제별 코드와 후기, 멤버별 제출 여부와 주차별 진행률을 한 화면에서 확인할 수 있게 됐습니다."
     },
     {
       "id": "review-control",
@@ -87,12 +89,12 @@ export const studyReview: Project = {
           "heading": "검증한 응답을 코드에 연결",
           "items": [
             "이슈는 2~3개, Java 예시는 최대 1개와 12줄로 제한하고 근거 줄과 수정안을 요구했습니다.",
-            "JSON 필드, 유형, 줄 번호와 개수를 검증해 코드 뷰어의 지적 줄과 연결했습니다. 형식 검증은 코드의 정답 여부를 보장하지 않습니다.",
+            "JSON 필드, 유형, 줄 번호와 개수를 검증해 코드 뷰어의 지적 줄과 연결했습니다.",
             "약 300줄 상세 페이지를 뷰어, Markdown, Hook, Route Handler와 타입으로 나눴습니다."
           ]
         }
       ],
-      "description": "페이지 진입마다 리뷰를 실행하면 같은 코드에도 LLM 요청이 반복됐습니다. 버튼을 눌렀을 때만 요청하고 코드와 정책 버전이 같으면 결과를 재사용하도록 변경했습니다. 리뷰는 JSON 필드와 줄 번호를 검증한 뒤 코드 뷰어에 연결했습니다."
+      "description": "처음에는 상세 페이지를 열 때마다 AI 리뷰가 실행됐습니다. 같은 코드를 다시 봐도 API를 호출했고, 리뷰에서 지적한 부분을 코드에서 직접 찾아야 했습니다."
     }
   ],
   "description": "Notion과 GitHub에 나뉜 Java 스터디 기록을 한곳에서 확인하고 AI 코드 리뷰를 요청하는 서비스입니다. 6명 스터디 운영을 위해 개인 개발했습니다.",

@@ -13,9 +13,10 @@ type ProjectDetailProps = {
 export default function ProjectDetail({ project, nextProject }: ProjectDetailProps) {
   const architectureAfterChapters = project.architecture?.placement === "after-chapters";
   const architectureContents = project.architecture ? [{ id: "project-architecture", label: "시스템 구성" }] : [];
+  const contributionsTitle = project.contributionsTitle ?? "내가 맡은 일";
   const contents = [
     { id: "project-overview", label: "프로젝트 소개" },
-    ...(project.contributions ? [{ id: "project-role", label: "내가 맡은 일" }] : []),
+    ...(project.contributions ? [{ id: "project-role", label: contributionsTitle }] : []),
     ...(!architectureAfterChapters ? architectureContents : []),
     ...project.chapters.map((chapter) => ({ id: chapter.id, label: chapter.nav })),
     ...(architectureAfterChapters ? architectureContents : []),
@@ -79,7 +80,7 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
 
             {project.contributions && (
               <section className="project-contributions" aria-labelledby="project-role">
-                <h2 id="project-role">내가 맡은 일</h2>
+                <h2 id="project-role">{contributionsTitle}</h2>
                 <ul className="project-points">{project.contributions.map((item) => <li key={item}>{item}</li>)}</ul>
               </section>
             )}

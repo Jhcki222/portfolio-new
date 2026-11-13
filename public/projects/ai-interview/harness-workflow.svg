@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="565" viewBox="0 0 880 565" role="img" aria-labelledby="title">
+<title id="title">Python 면접 하네스 워크플로우</title>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#6657b8"/></marker></defs>
+<rect width="880" height="565" rx="20" fill="#f7f6fc"/>
+<g fill="none" stroke="#6657b8" stroke-width="2" marker-end="url(#arrow)">
+<path d="M440 76v22"/><path d="M440 150v22"/><path d="M440 224v22"/><path d="M440 304v26H157v20"/><path d="M440 304v46"/><path d="M440 304v26h283v20"/><path d="M157 414v26h283v20"/><path d="M440 414v46"/><path d="M723 414v26H440v20"/>
+<path d="M258 490H30V198h225" stroke-dasharray="6 5"/>
+</g>
+<g fill="white" stroke="#d6d0ee">
+<rect x="260" y="24" width="360" height="52" rx="12"/><rect x="260" y="98" width="360" height="52" rx="12"/><rect x="260" y="172" width="360" height="52" rx="12"/>
+<rect x="260" y="246" width="360" height="58" rx="12" fill="#ebe7ff" stroke="#a495e2"/>
+<rect x="40" y="350" width="234" height="64" rx="12"/><rect x="323" y="350" width="234" height="64" rx="12"/><rect x="606" y="350" width="234" height="64" rx="12"/>
+<rect x="258" y="460" width="364" height="60" rx="12" fill="#ebe7ff" stroke="#a495e2"/>
+</g>
+<g text-anchor="middle" font-family="Malgun Gothic, Apple SD Gothic Neo, sans-serif" font-size="17" font-weight="700" fill="#29224c">
+<text x="440" y="56">자기소개서·JD 입력 → 경험과 근거 확인</text>
+<text x="440" y="130">질문 생성 → 텍스트·음성 답변</text>
+<text x="440" y="204">모델이 5개 지표의 점수와 근거 반환</text>
+<text x="440" y="281">Python 하네스가 응답을 검증하고 분기</text>
+<text x="157" y="375">꼬리질문 제안</text><text x="440" y="375">다음 질문 제안</text><text x="723" y="375">종합 평가 제안</text>
+<text x="440" y="487">사용자가 확인하면 제안 실행</text>
+</g>
+<g text-anchor="middle" font-family="Malgun Gothic, Apple SD Gothic Neo, sans-serif" font-size="13" fill="#514970">
+<text x="157" y="397">최저 점수 70점 미만 · 2회 미만</text><text x="440" y="397">남은 질문 있음 · 꼬리질문 조건 미충족</text><text x="723" y="397">남은 질문 없음 또는 턴 한도</text>
+<text x="440" y="508">질문이면 다시 답변하고, 종료면 피드백 확인</text>
+</g></svg>

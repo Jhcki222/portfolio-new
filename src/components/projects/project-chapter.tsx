@@ -10,14 +10,14 @@ export default function ProjectChapter({ chapter }: { chapter: Chapter }) {
         {chapter.blocks.map((block) => (
           <div key={block.heading} className="project-prose">
             <h3>{block.heading}</h3>
-            <ul className="project-points">{block.items.map((item) => <li key={item}>{item}</li>)}</ul>
+            {block.items.length > 0 && <p>{block.items.join(" ")}</p>}
             {block.figure && <ProjectFigure figure={block.figure} />}
           </div>
         ))}
       </div>
       {chapter.metrics && (
         <div className="project-metrics">
-          <table aria-describedby={`${chapter.id}-metric-note`}>
+          <table aria-describedby={chapter.metrics.note ? `${chapter.id}-metric-note` : undefined}>
             <caption>{chapter.metrics.caption}</caption>
             <thead>
               <tr>{chapter.metrics.columns.map((column) => <th scope="col" key={column}>{column}</th>)}</tr>
@@ -28,10 +28,16 @@ export default function ProjectChapter({ chapter }: { chapter: Chapter }) {
               ))}
             </tbody>
           </table>
-          <p id={`${chapter.id}-metric-note`} className="project-note">{chapter.metrics.note}</p>
+          {chapter.metrics.note && <p id={`${chapter.id}-metric-note`} className="project-note">{chapter.metrics.note}</p>}
         </div>
       )}
+      {chapter.outcome && <p className="project-outcome">{chapter.outcome}</p>}
       {chapter.figure && <ProjectFigure figure={chapter.figure} />}
+      {chapter.figures && (
+        <div className="project-figure-grid">
+          {chapter.figures.map((figure) => <ProjectFigure key={figure.src} figure={figure} />)}
+        </div>
+      )}
     </section>
   );
 }

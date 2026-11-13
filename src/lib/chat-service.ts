@@ -42,6 +42,7 @@ export function selectPortfolioContext(context: string, messages: ChatMessage[])
     "pixel-art-scaling": ["픽셀", "pixel", "논문", "opencv", "블록", "minchunk"],
     "card-recommendation": ["카드", "webflux", "mvc", "sse"],
     delishare: ["delishare", "델리", "배달", "공동구매", "bloom", "매칭"],
+    "ai-interview": ["모의 면접", "면접스터디", "면접 스터디", "자기소개서", "꼬리질문"],
     "study-review": ["스터디", "대시보드", "notion", "코드 리뷰", "코드리뷰", "알고리즘"],
   };
   const keywords = latest.match(/[a-z0-9][a-z0-9-]+|[가-힣]{2,}/g) ?? [];
@@ -69,7 +70,7 @@ export function selectPortfolioContext(context: string, messages: ChatMessage[])
     score: keywords.reduce((sum, word) => sum + (JSON.stringify(chapter).toLowerCase().includes(word) ? 1 : 0), 0),
   }))).sort((a, b) => b.score - a.score);
   for (const { project, chapter } of sections) {
-    add({ project, section: chapter.title, description: chapter.description, metrics: chapter.metrics });
+    add({ project, section: chapter.title, description: chapter.description, outcome: chapter.outcome, metrics: chapter.metrics });
     for (const block of chapter.blocks ?? []) add({ project, section: chapter.title, ...block });
   }
   // Activity questions also need their measured results and role details.

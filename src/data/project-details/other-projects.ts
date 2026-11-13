@@ -33,21 +33,21 @@ export const easyreader: Project = {
       "title": "읽기 어려운 웹페이지를 요약과 음성으로 제공",
       "blocks": [
         {
-          "heading": "본문 처리와 접근성 기능",
+          "heading": "본문을 가져오지 못했을 때",
           "items": [
-            "Content Script에서 추출한 본문을 Service Worker 메시지로 전달하고 React 화면에서 요약 요청과 응답을 처리했습니다.",
-            "LLM으로 핵심 내용과 쉬운 표현을 제공하고 Web Speech API TTS로 읽을 수 있도록 했습니다.",
-            "고대비 모드와 글자 크기 조절을 추가해 같은 페이지를 읽는 방식을 선택할 수 있도록 했습니다."
+            "Content Script에서 Readability로 본문을 추출했습니다. 추출이 실패하면 body.innerText로 대체해 요약을 요청할 수 있도록 했습니다. 이 경로에서는 메뉴 텍스트도 섞일 수 있습니다.",
+            "추출한 본문은 Service Worker 메시지로 전달하고, React 사이드 패널에서 요약을 표시했습니다. Web Speech API로 읽기 기능을 붙이고 글자 크기와 고대비도 조절할 수 있게 했습니다."
           ]
         }
       ],
-      "description": "웹페이지 읽기에 어려움을 겪는 가족이 본문을 쉽게 확인할 수 있도록 요약과 음성 읽기를 제공했습니다. 사이트마다 본문 구조가 달라 Readability 추출이 실패할 때는 body.innerText를 사용하도록 했습니다. 대체 경로에서는 메뉴 같은 부가 텍스트가 함께 포함될 수 있습니다."
+      "description": "할아버지가 웹페이지 읽기를 어려워하셔서, 글의 핵심만 읽거나 들을 수 있는 크롬 확장 프로그램을 만들었습니다. 사이트마다 구조가 달라 요약할 본문을 가져오는 것부터 해결해야 했습니다.",
+      "outcome": "직접 웹스토어에 배포했고, 2026년 11월 10일 기준 누적 설치 846회를 기록했습니다."
     },
     {
       "id": "english-support",
       "nav": "v1.4 영어 지원",
       "title": "영어 버전 지원",
-      "description": "v1.4에서 영어 인터페이스와 영어 요약을 추가했습니다. 사이드 패널에서 한국어와 영어를 전환하고, 현재 페이지를 보면서 요약을 확인할 수 있습니다.",
+      "description": "v1.4부터 사이드 패널에서 한국어와 영어를 바꿔 쓸 수 있습니다. 영어로 전환하면 버튼과 안내 문구, 요약이 영어로 표시됩니다.",
       "blocks": [
         {
           "heading": "영어 사이드 패널",
@@ -126,6 +126,7 @@ export const easyreader: Project = {
 
 export const cardRecommendation: Project = {
   "slug": "card-recommendation",
+  contributionsTitle: "서비스 기능",
   "name": "신용카드 추천 챗봇",
   "category": "우리FISA, 백엔드 성능 비교",
   "headline": "사용자 조건에 맞는 신용카드를 추천하는 챗봇",
@@ -175,7 +176,7 @@ export const cardRecommendation: Project = {
     {
       "id": "streaming-gateway",
       "nav": "AI 응답 대기와 스트리밍",
-      "title": "답변 생성 중 토큰 전달과 카드 상세 조회",
+      "title": "답변이 생성되는 동안 SSE로 전달",
       "blocks": [
         {
           "heading": "Spring을 통한 응답 중계",
@@ -186,17 +187,17 @@ export const cardRecommendation: Project = {
           ]
         }
       ],
-      "description": "클라이언트가 AI 서버를 직접 호출하던 경로를 Spring 서버로 통합했습니다. 생성 중인 답변은 SSE로 전달하고, 생성이 끝나면 추천 카드의 상세 정보를 조회해 같은 응답 과정에서 제공하도록 구성했습니다."
+      "description": "처음에는 클라이언트가 Spring 서버와 AI 서버를 따로 호출했습니다. 요청을 Spring으로 모으고, 답변은 완성될 때까지 기다리지 않고 생성되는 순서대로 화면에 보냈습니다."
     },
     {
       "id": "io-comparison",
       "nav": "MVC, WebFlux 부하 비교",
-      "title": "MVC와 WebFlux의 부하별 자원 사용 비교",
+      "title": "DB 조회 부하에서 MVC와 WebFlux 비교",
       "blocks": [
         {
           "heading": "Spring MVC",
           "items": [
-            "MVC의 JVM 전체 스레드는 200 VU에서 최대 221개, 500 VU에서 약 222개였습니다."
+            "MVC에서는 200 VU부터 JVM 스레드가 221개까지 늘었습니다."
           ],
           "figure": {
             "src": "/projects/card-recommendation/mvc-jvm-threads.png",
@@ -209,8 +210,7 @@ export const cardRecommendation: Project = {
         {
           "heading": "Spring WebFlux",
           "items": [
-            "WebFlux는 200 VU에서 44개, 500 VU에서 59개로 관찰됐습니다.",
-            "500 VU에서 JVM 스레드는 약 73.4% 적었지만 평균 응답시간과 처리량은 MVC가 소폭 우세했습니다."
+            "WebFlux에서는 200 VU에 44개, 500 VU에 59개가 관찰됐습니다."
           ],
           "figure": {
             "src": "/projects/card-recommendation/webflux-jvm-threads.png",
@@ -239,10 +239,10 @@ export const cardRecommendation: Project = {
             "약 222개",
             "59개"
           ]
-        ],
-        "note": "로컬 DB I/O 비교이며 DB 구성 차이가 있습니다. JVM 전체 스레드 수를 측정한 결과로, LLM 응답속도나 동일 DB 조건의 우열을 뜻하지 않습니다. 스레드 감소율: (222−59)÷222 ≈ 73.4%."
+        ]
       },
-      "description": "응답을 기다리는 요청이 늘어날 때의 자원 사용을 확인하기 위해 MVC와 WebFlux에 DB I/O 부하를 줬습니다. k6 가상 사용자 수를 바꾸며 Grafana의 JVM 전체 스레드 수를 관찰하고 응답시간과 처리량을 함께 비교했습니다."
+      "description": "DB 응답을 기다리는 요청이 많아질 때 스레드가 얼마나 늘어나는지 비교했습니다. 로컬에서 k6로 조회 부하를 주고 Grafana에서 JVM 전체 스레드 수, 평균 응답시간, 처리량을 확인했습니다.",
+      "outcome": "500 VU에서 JVM 스레드는 MVC 222개, WebFlux 59개였습니다. 평균 응답시간과 처리량은 MVC가 소폭 앞섰습니다. 스레드를 덜 쓰면 응답도 빨라질 줄 알았는데, 이번 실험에서는 두 지표가 다르게 나왔습니다. AI 응답을 기다리며 연결을 오래 열어 두는 구간에는 WebFlux를 검토하고, 짧은 블로킹 DB 조회가 대부분이라면 MVC도 충분한 선택이라고 생각합니다."
     }
   ],
   "description": "사용자 조건에 맞는 카드와 추천 이유를 제공하는 챗봇입니다. Spring과 FastAPI를 연결하고, 응답 중계와 MVC, WebFlux 부하 비교를 맡았습니다.",
@@ -279,14 +279,13 @@ export const delishare: Project = {
     {
       "id": "matching",
       "nav": "매칭 후보 탐색 줄이기",
-      "title": "브랜드별 매칭 후보 탐색 개선",
+      "title": "같은 브랜드 주문만 매칭 후보로 조회",
       "blocks": [
         {
           "heading": "후보 제한과 부하 비교",
           "items": [
             "전체 후보를 비교하던 방식에서 동일 브랜드별 큐를 조회하도록 변경했습니다.",
-            "Bloom Filter는 포함 가능성을 확인하는 용도로 사용했습니다. 양성 응답만으로 매칭이 확정되지는 않습니다.",
-            "총 3,000건 요청의 평균 응답시간은 1,745ms에서 81ms로 약 95.4% 줄었습니다."
+            "Bloom Filter는 포함 가능성을 확인하는 용도로 사용했습니다. 양성 응답만으로 매칭이 확정되지는 않습니다."
           ]
         }
       ],
@@ -303,10 +302,10 @@ export const delishare: Project = {
             "1,745 ms",
             "81 ms"
           ]
-        ],
-        "note": "JMeter 총 요청 3,000건의 평균 비교입니다. 동시 사용자 수나 p95 지표로 해석하지 않으며, Bloom Filter는 오탐 가능한 후보 필터입니다."
+        ]
       },
-      "description": "기존 Gale–Shapley 기반 후보 비교에서는 매칭 대상이 늘면서 비교 비용이 커졌습니다. 같은 브랜드 요청을 큐로 분리해 탐색할 후보를 줄이고 Bloom Filter로 포함 가능성을 확인했습니다. 변경 전후를 JMeter 총 3,000건 요청으로 비교했습니다."
+      "description": "Kotlin 앱을 React 웹으로 옮기면서 매칭 로직도 손봤습니다. 기존 Gale–Shapley 방식은 주문이 늘수록 비교할 후보가 많아졌습니다. 같은 브랜드끼리 주문을 묶으면 매번 전체 후보를 훑을 필요가 없었습니다.",
+      "outcome": "JMeter로 매칭 요청 3,000건을 실행했을 때 평균 응답시간이 1,745ms에서 81ms로 줄었습니다."
     }
   ],
   "description": "같은 브랜드의 배달을 함께 주문할 사용자를 연결하는 서비스입니다. 앱의 웹 전환 과정에서 매칭 후보 탐색을 수정하고 응답시간을 비교했습니다.",

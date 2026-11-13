@@ -2,7 +2,7 @@ import type { Project } from "./types";
 
 export const pixelArtScaling: Project = {
   "slug": "pixel-art-scaling",
-  "name": "Structure-Aware Pixel Art Scaling",
+  "name": "Structure-Aware Pixel Art Scaling · SCIE 논문",
   "category": "공동연구, 국제 학술지 게재",
   "headline": "블록 구조를 유지하는 픽셀 아트 리사이징 연구",
   "summary": "픽셀 아트의 블록 구조를 유지하면서 이미지 크기를 조절하는 연구",
@@ -33,7 +33,7 @@ export const pixelArtScaling: Project = {
     {
       "id": "block-detection",
       "nav": "블록 탐지와 배율 선택",
-      "title": "블록 구조를 유지하는 탐지와 이미지 재구성",
+      "title": "이미지 크기의 공약수로 블록 후보 줄이기",
       "blocks": [
         {
           "heading": "탐색 범위 축소와 정수 블록 선택",
@@ -52,7 +52,8 @@ export const pixelArtScaling: Project = {
         "alt": "논문 Algorithm 2: 블록 크기에 요청 배율을 곱해 반올림하고 최소 격자를 재구성하는 알고리즘과 예시",
         "caption": "스케일링 알고리즘, 2px 블록 × 1.4배 → 3px 블록(실제 1.5배)"
       },
-      "description": "픽셀 아트의 블록 크기를 완전탐색하는 비용을 줄이기 위해 이미지 가로와 세로 크기의 공약수로 후보를 제한했습니다. Minchunk로 최소 격자를 찾고 정수 블록으로 재구성했습니다. 블록 크기를 정수로 선택하므로 요청 배율과 실제 배율에는 차이가 생길 수 있습니다."
+      "description": "픽셀 아트의 색 경계를 살려 확대하려면 원본에서 같은 색이 반복되는 블록의 크기부터 알아야 했습니다. 가능한 크기를 하나씩 대입하는 방식은 탐색에 시간이 오래 걸렸습니다.",
+      "outcome": "완전탐색과 비교해 블록 탐지 시간을 90% 이상 줄였습니다."
     },
     {
       "id": "shared-tests",
@@ -76,7 +77,8 @@ export const pixelArtScaling: Project = {
         "alt": "Applied Sciences에 게재된 Structure-Aware Pixel Art Scaling via Block Size Detection 논문의 첫 페이지",
         "caption": "Applied Sciences, 2026, 16, 2314에 게재된 논문"
       },
-      "description": "모듈 통합 과정에서 투명도, 노이즈와 해상도 처리에 따른 출력 차이가 발생했습니다. 각 모듈에 같은 입력과 기대값을 적용하고 페어 프로그래밍으로 전처리를 점검했습니다."
+      "description": "각자 만든 모듈을 합쳐 보니 같은 이미지도 투명도나 노이즈, 해상도를 처리하는 방식에 따라 출력이 달랐습니다. 어느 단계에서 달라지는지 찾으려고 같은 입력 이미지와 기대값을 정했습니다.",
+      "outcome": "조건별 공통 테스트로 출력 차이를 맞췄고, 연구 결과를 Applied Sciences에 공동 게재했습니다."
     }
   ],
   "description": "픽셀 아트의 블록 크기를 탐지하고 격자를 재구성하는 연구입니다. Python, OpenCV 구현, 테스트와 논문 공동 작성에 참여했습니다.",

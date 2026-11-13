@@ -7,10 +7,12 @@ const projectPages = [
   ["knowwhohow", "노후하우"],
   ["collabo", "COLLABO"],
   ["easyreader", "EasyReader"],
+  ["ai-interview", "AI 모의 면접 서비스"],
   ["pixel-art-scaling", "Structure-Aware Pixel Art Scaling"],
   ["card-recommendation", "신용카드 추천 챗봇"],
   ["delishare", "Delishare"],
   ["study-review", "알고리즘 스터디 운영 AI 대시보드"],
+
 ];
 
 test("the project list keeps the requested order and links to every introduction", async () => {
@@ -35,7 +37,7 @@ for (const [slug, name] of projectPages) {
     assert.ok(main);
     assert.doesNotMatch(main, /project-reflection|돌아보며/);
     if (slug === "knowwhohow") assert.doesNotMatch(main, /우리FISA/);
-    if (!["delishare", "study-review", "collabo"].includes(slug)) {
+    if (!["delishare", "study-review", "collabo", "ai-interview"].includes(slug)) {
       assert.match(main, /<a\b[^>]*href="https:\/\//, "Original project resources remain accessible");
     }
     const contents = main.match(/<nav\b[^>]*aria-label="페이지 목차"[\s\S]*?<\/nav>/)?.[0];
@@ -52,7 +54,7 @@ for (const [slug, name] of projectPages) {
     if (slug === "knowwhohow") {
       assert.match(main, /42%/);
       assert.doesNotMatch(main, /약 50%/);
-      for (const phrase of ["Debezium", "98개", "5개 시나리오", "49/53", "92.5%", "만료 상품", "임베딩 누락"]) assert.ok(main.includes(phrase));
+      for (const phrase of ["Debezium", "임베딩만 다시 시도", "5개 시나리오", "49/53", "92.5%", "만료 상품", "임베딩 누락"]) assert.ok(main.includes(phrase));
       assert.doesNotMatch(main, /2026|후속 고도화/);
       assert.doesNotMatch(main, /서로 다른 실험입니다|작은 fixture|확대하지 않았습니다/);
       assert.ok(anchors.indexOf("mydata") < anchors.indexOf("recommendation-search"));

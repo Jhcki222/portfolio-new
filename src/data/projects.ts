@@ -1,3 +1,4 @@
+import { aiInterview } from "./project-details/ai-interview";
 import { collabo } from "./project-details/collabo";
 import { knowwhohow } from "./project-details/knowwhohow";
 import { pixelArtScaling } from "./project-details/pixel-art-scaling";
@@ -11,10 +12,12 @@ export const projects: Project[] = [
   knowwhohow,
   collabo,
   easyreader,
+  aiInterview,
   pixelArtScaling,
   cardRecommendation,
   delishare,
   studyReview,
+
 ];
 
 export function getProject(slug: string) {
