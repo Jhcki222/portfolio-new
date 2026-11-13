@@ -23,9 +23,7 @@ export const easyreader: Project = {
       "url": "https://github.com/fisa-mini-project"
     }
   ],
-  "overview": [
-    "Chrome Web Store 누적 설치 846회 (2026년 11월 10일 기준)"
-  ],
+  "overview": [],
   "chapters": [
     {
       "id": "page-integration",
@@ -40,8 +38,7 @@ export const easyreader: Project = {
           ]
         }
       ],
-      "description": "할아버지가 웹페이지 읽기를 어려워하셔서, 글의 핵심만 읽거나 들을 수 있는 크롬 확장 프로그램을 만들었습니다. 사이트마다 구조가 달라 요약할 본문을 가져오는 것부터 해결해야 했습니다.",
-      "outcome": "직접 웹스토어에 배포했고, 2026년 11월 10일 기준 누적 설치 846회를 기록했습니다."
+      "description": "사이트마다 페이지 구조가 달라 요약에 쓸 본문을 추출하는 방식부터 정했습니다."
     },
     {
       "id": "english-support",
@@ -87,7 +84,7 @@ export const easyreader: Project = {
       }
     }
   ],
-  "description": "웹페이지 읽기에 어려움을 겪는 가족을 위해 만든 크롬 확장 프로그램입니다. 본문을 요약하고 음성으로 읽거나, 글자 크기와 대비를 조절할 수 있도록 개발했습니다.",
+  "description": "EasyReader는 긴 웹페이지의 핵심 내용을 읽거나 들을 수 있는 크롬 확장 프로그램입니다. 사용자는 보고 있는 페이지 옆에 사이드 패널을 열어 요약을 확인하고, 필요하면 원문 발췌를 펼쳐 볼 수 있습니다. 음성 읽기와 글자 크기, 고대비 설정도 같은 패널에서 이용할 수 있습니다.",
   "cover": {
     "src": "/projects/easyreader/store-listing.png",
     "width": 1485,
@@ -101,9 +98,11 @@ export const easyreader: Project = {
     "음성 읽기, 글자 크기 및 고대비 설정"
   ],
   "contributions": [
-    "Readability 기반 본문 추출과 추출 실패 시 대체 경로를 구현했습니다.",
-    "확장 프로그램의 메시지 통신에 요약 요청과 음성 읽기를 연결했습니다.",
-    "고대비와 글자 크기 조절을 제공하고 배포 후 댓글을 바탕으로 화면을 개선했습니다."
+    "웹페이지 본문 추출부터 LLM 요약과 결과 표시까지 AI 기능 전반을 직접 구현했습니다.",
+    "Readability로 웹페이지 본문을 추출하고, 본문을 찾지 못한 페이지에서는 화면의 텍스트를 가져오도록 대체 경로를 만들었습니다.",
+    "Service Worker를 거쳐 요약 요청과 응답을 연결하고, React 사이드 패널에 요약과 원문 발췌를 표시했습니다.",
+    "Web Speech API로 음성 읽기를 구현하고 글자 크기와 고대비 설정을 추가했습니다. 배포 후에는 웹스토어 댓글을 바탕으로 화면을 개선했습니다.",
+    "Chrome Web Store에 직접 배포해 2026년 11월 10일 기준 누적 설치 846회를 기록했습니다."
   ],
   "architecture": {
     "title": "웹페이지 본문 추출과 요약 요청",
@@ -146,9 +145,7 @@ export const cardRecommendation: Project = {
       "url": "https://github.com/Jhcki222/woori-card-recommendation-system"
     }
   ],
-  "overview": [
-    "Spring 백엔드와 FastAPI 연동, k6와 Grafana 부하 비교 담당"
-  ],
+  "overview": [],
   "cover": {
     "src": "/projects/card-recommendation/demo.gif",
     "width": 960,
@@ -242,18 +239,18 @@ export const cardRecommendation: Project = {
         ]
       },
       "description": "DB 응답을 기다리는 요청이 많아질 때 스레드가 얼마나 늘어나는지 비교했습니다. 로컬에서 k6로 조회 부하를 주고 Grafana에서 JVM 전체 스레드 수, 평균 응답시간, 처리량을 확인했습니다.",
-      "outcome": "500 VU에서 JVM 스레드는 MVC 222개, WebFlux 59개였습니다. 평균 응답시간과 처리량은 MVC가 소폭 앞섰습니다. 스레드를 덜 쓰면 응답도 빨라질 줄 알았는데, 이번 실험에서는 두 지표가 다르게 나왔습니다. AI 응답을 기다리며 연결을 오래 열어 두는 구간에는 WebFlux를 검토하고, 짧은 블로킹 DB 조회가 대부분이라면 MVC도 충분한 선택이라고 생각합니다."
+      "outcome": "500 VU에서 JVM 스레드는 MVC 222개, WebFlux 59개였습니다. 평균 응답시간과 처리량은 MVC가 소폭 앞섰습니다. 스레드를 덜 쓰면 응답도 빨라질 줄 알았는데, 이번 실험에서는 두 지표가 다르게 나왔습니다. AI 답변을 스트리밍하는 동안 HTTP 연결을 유지해야 하는 경우에는 WebFlux를 검토하고, 짧은 블로킹 DB 조회가 대부분이라면 MVC도 충분한 선택이라고 생각합니다."
     }
   ],
-  "description": "사용자 조건에 맞는 카드와 추천 이유를 제공하는 챗봇입니다. Spring과 FastAPI를 연결하고, 응답 중계와 MVC, WebFlux 부하 비교를 맡았습니다.",
+  "description": "원하는 혜택이나 카드 조건을 대화로 입력하면 신용카드와 추천 이유를 알려 주는 챗봇입니다. 사용자는 답변이 생성되는 동안 추천 이유를 먼저 읽고, 답변이 끝나면 추천 카드의 상세 정보를 확인할 수 있습니다.",
   "highlights": [
     "Spring 서버를 통한 응답 스트리밍",
     "MVC와 WebFlux의 자원 사용 비교"
   ],
   "contributions": [
-    "클라이언트의 AI 직접 호출을 Spring 프록시 경유로 통합했습니다.",
-    "RAG 생성 토큰을 SSE로 중계하고 생성 완료 후 추천 카드 상세 정보를 전달했습니다.",
-    "MVC와 WebFlux에 DB I/O 부하를 주고 JVM 스레드 수, 응답시간과 처리량을 비교했습니다."
+    "클라이언트 요청을 Spring 서버로 모으고, WebClient로 FastAPI의 추천 응답을 받아 SSE로 전달했습니다.",
+    "답변 생성이 끝나면 카드명을 추출해 MongoDB에서 상세 정보를 조회했습니다. 답변과 상세 정보의 전달 시점을 나눠 사용자가 답변을 먼저 읽을 수 있도록 했습니다.",
+    "k6로 DB 조회 부하를 주고 Grafana에서 MVC와 WebFlux의 스레드 수, 응답 시간, 처리량을 비교했습니다. 500 VU에서 JVM 스레드는 MVC 222개, WebFlux 59개였고, 평균 응답 시간과 처리량은 MVC가 소폭 앞섰습니다."
   ]
 };
 
@@ -272,9 +269,7 @@ export const delishare: Project = {
     "JMeter"
   ],
   "links": [],
-  "overview": [
-    "팀장으로 앱의 웹 전환과 매칭 로직 개선을 맡았습니다."
-  ],
+  "overview": [],
   "chapters": [
     {
       "id": "matching",
@@ -284,7 +279,7 @@ export const delishare: Project = {
         {
           "heading": "주문이 들어온 브랜드의 대기열만 확인",
           "items": [
-            "주문이 들어오면 해당 브랜드의 `Queue`에서만 후보를 찾도록 바꿨습니다. 이미 매칭된 주문자인지 확인할 때는 `Bloom Filter`자료구조를 사용했습니다."
+            "주문이 들어오면 해당 브랜드의 대기열에서만 후보를 찾도록 바꿨습니다. 이미 매칭된 주문자인지 확인할 때는 `Bloom Filter`를 먼저 사용했습니다."
           ]
         },
         {
@@ -320,13 +315,14 @@ export const delishare: Project = {
       "outcome": "변경 전후에 `JMeter`로 매칭 요청을 각각 3,000건 실행했습니다. 평균 응답시간은 1,745ms에서 81ms로 약 95% 줄었습니다."
     }
   ],
-  "description": "같은 브랜드에서 배달을 주문하려는 사람을 모아 공동 주문으로 연결하는 서비스입니다. 기존 앱을 웹으로 옮기면서, 주문이 쌓일수록 느려지는 매칭 로직을 함께 손봤습니다.",
+  "description": "DeliShare는 같은 브랜드에서 배달을 주문하려는 사람을 모아 공동 주문으로 연결하는 서비스입니다. 사용자가 웹에서 브랜드를 골라 주문을 등록하면, 서비스는 같은 브랜드로 주문을 넣은 사람 중에서 함께 주문할 후보를 찾습니다. 팀장을 맡아 기존 앱을 웹으로 옮기고 매칭 로직을 개선했습니다.",
   "highlights": [
     "매칭 요청 3,000건에서 평균 응답시간 1,745ms → 81ms",
     "브랜드별 대기열과 Bloom Filter 적용"
   ],
   "contributions": [
-    "팀장으로 기존 `Kotlin` 앱을 `React` 웹으로 옮기는 작업에 참여하고, 주문 화면과 백엔드 매칭 로직을 개발했습니다.",
-    "브랜드별 대기열로 비교 범위를 좁히고, `JMeter`로 개선 전후의 응답시간을 측정했습니다."
+    "기존 Kotlin 앱을 React 웹으로 옮기는 작업에 참여하고, 공동 주문 화면과 백엔드 매칭 로직을 개발했습니다.",
+    "브랜드별 대기열을 두어 같은 브랜드의 주문끼리만 비교하고, 이미 매칭된 주문자를 확인할 때 Bloom Filter를 사용했습니다.",
+    "JMeter로 개선 전후 매칭 요청을 각각 3,000건 실행했습니다. 평균 응답 시간은 1,745ms에서 81ms로 줄었습니다."
   ]
 };

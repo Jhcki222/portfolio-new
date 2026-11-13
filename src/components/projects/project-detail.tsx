@@ -74,7 +74,9 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
             <section className="project-overview" aria-labelledby="project-overview">
               <h2 id="project-overview">프로젝트 소개</h2>
               {project.description && <p className="project-intro"><TechnicalText text={project.description} /></p>}
-              <ul className="project-points">{project.overview.map((item) => <li key={item}><TechnicalText text={item} /></li>)}</ul>
+              {project.overview.length > 0 && (
+                <ul className="project-points">{project.overview.map((item) => <li key={item}><TechnicalText text={item} /></li>)}</ul>
+              )}
               {project.cover && <ProjectFigure figure={project.cover} eager />}
               {project.overviewFigures?.map((figure) => <ProjectFigure key={figure.src} figure={figure} />)}
             </section>

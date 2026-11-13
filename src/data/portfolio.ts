@@ -64,11 +64,12 @@ export const experiences: Experience[] = [
 ];
 
 export const skills: [category: string, items: string[]][] = [
-  ["Backend", ["Java", "Spring Boot", "JPA", "FastAPI", "MySQL", "MongoDB", "PostgreSQL"]],
-  ["AI", ["LangChain", "LangGraph", "Vector DB", "LLM", "RAG"]],
-  ["Frontend", ["React.js", "Next.js", "TypeScript", "JavaScript", "HTML/CSS"]],
-  ["Data Pipeline", ["Airflow", "Debezium", "Kafka", "SQLAlchemy"]],
-  ["DevOps", ["Docker", "AWS", "Jenkins", "ELK", "SonarQube", "Vercel", "k6", "Grafana"]],
+  ["Language", ["Java", "Python", "TypeScript", "JavaScript"]],
+  ["Backend", ["Spring Boot", "Spring Security", "JPA", "MyBatis", "Servlet", "JSP", "FastAPI"]],
+  ["Database", ["MySQL", "PostgreSQL", "MongoDB", "Redis"]],
+  ["AI & Data", ["RAG", "LangChain", "LangGraph", "Apache Airflow", "Apache Kafka"]],
+  ["DevOps & Performance", ["Docker", "AWS", "Jenkins", "k6", "Grafana"]],
+  ["Frontend", ["React.js", "Next.js", "Tailwind", "Zustand", "TanStack Query"]],
 ];
 
 

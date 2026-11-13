@@ -52,9 +52,8 @@ for (const [slug, name] of projectPages) {
     assert.doesNotMatch(main, /물리 서버|클라우드 이관|후속 인프라 과제/);
     assert.doesNotMatch(main, /<h3[^>]*>(?:문제|대처|성과|성과와 보강):/);
     if (slug === "knowwhohow") {
-      assert.match(main, /42%/);
-      assert.doesNotMatch(main, /약 50%/);
-      for (const phrase of ["Debezium", "49/53", "92.5%", "만료 상품", "임베딩 누락"]) assert.ok(main.includes(phrase));
+      assert.doesNotMatch(main, /42%|약 50%/);
+      for (const phrase of ["Debezium", "49/53", "92.5%", "만료 상품", "누락 임베딩"]) assert.ok(main.includes(phrase));
       assert.doesNotMatch(main, /2026|후속 고도화/);
       assert.doesNotMatch(main, /서로 다른 실험입니다|작은 fixture|확대하지 않았습니다/);
       assert.ok(anchors.indexOf("mydata") < anchors.indexOf("recommendation-search"));
