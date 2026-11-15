@@ -64,7 +64,7 @@ for (const [slug, name] of projectPages) {
       }
     }
     if (slug === "collabo") {
-      for (const value of ["Recall@5", "0.59", "0.88", "ROUGE-1 F1", "0.46", "0.72", "nDCG@5", "0.61", "0.74"]) assert.ok(main.includes(value));
+      for (const value of ["Recall@5", "0.68", "0.85", "ROUGE-1 F1", "0.46", "0.72", "nDCG@5", "0.61", "0.74"]) assert.ok(main.includes(value));
       assert.doesNotMatch(main, /30% 이상 개선/);
     }
     if (slug === "easyreader") assert.ok(main.includes('data-image-src="/projects/easyreader/store-listing.png"'), "EasyReader shows the supplied store screenshot");

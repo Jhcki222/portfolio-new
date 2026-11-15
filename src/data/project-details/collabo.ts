@@ -90,8 +90,8 @@ export const collabo: Project = {
         "rows": [
           [
             "Recall@5",
-            "0.59",
-            "0.88"
+            "0.68",
+            "0.85"
           ],
           [
             "ROUGE-1 F1",
