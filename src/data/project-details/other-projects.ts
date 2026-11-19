@@ -93,7 +93,7 @@ export const easyreader: Project = {
     "caption": "Easy Reader 웹스토어 등록 화면"
   },
   "highlights": [
-    "Chrome Web Store 설치 800회 돌파",
+    "Chrome Web Store 설치 1,000회 돌파",
     "v1.4 한국어·영어 인터페이스 및 요약 지원",
     "음성 읽기, 글자 크기 및 고대비 설정"
   ],
@@ -102,7 +102,7 @@ export const easyreader: Project = {
     "Readability로 웹페이지 본문을 추출하고, 본문을 찾지 못한 페이지에서는 화면의 텍스트를 가져오도록 대체 경로를 만들었습니다.",
     "Service Worker를 거쳐 요약 요청과 응답을 연결하고, React 사이드 패널에 요약과 원문 발췌를 표시했습니다.",
     "Web Speech API로 음성 읽기를 구현하고 글자 크기와 고대비 설정을 추가했습니다. 배포 후에는 웹스토어 댓글을 바탕으로 화면을 개선했습니다.",
-    "Chrome Web Store에 직접 배포해 2026년 11월 10일 기준 누적 설치 846회를 기록했습니다."
+    "Chrome Web Store에 직접 배포해 2026년 11월 16일 기준 누적 설치 1,000회를 돌파했습니다."
   ],
   "architecture": {
     "title": "웹페이지 본문 추출과 요약 요청",
@@ -115,10 +115,10 @@ export const easyreader: Project = {
   "overviewFigures": [
     {
       "src": "/projects/easyreader/install-milestone.png",
-      "width": 1672,
-      "height": 1098,
-      "alt": "Chrome Web Store 개발자 대시보드에 표시된 설치 수 846회와 설치 추이",
-      "caption": "Chrome Web Store 설치 통계 (2026년 11월 10일까지)"
+      "width": 1237,
+      "height": 1073,
+      "alt": "Chrome Web Store 개발자 대시보드에 표시된 설치 수 1.01천 회와 설치 추이",
+      "caption": "Chrome Web Store 설치 통계 (2026년 11월 16일까지)"
     }
   ]
 };
