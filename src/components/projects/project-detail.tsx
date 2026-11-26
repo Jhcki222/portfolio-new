@@ -73,7 +73,13 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
           <article className="project-story" aria-label={`${project.name} 상세 설명`}>
             <section className="project-overview" aria-labelledby="project-overview">
               <h2 id="project-overview">프로젝트 소개</h2>
-              {project.description && <p className="project-intro"><TechnicalText text={project.description} /></p>}
+              {project.description && (
+                <div className="project-intro project-paragraphs">
+                  {project.description.split("\n\n").map((paragraph) => (
+                    <p key={paragraph}><TechnicalText text={paragraph} /></p>
+                  ))}
+                </div>
+              )}
               {project.overview.length > 0 && (
                 <ul className="project-points">{project.overview.map((item) => <li key={item}><TechnicalText text={item} /></li>)}</ul>
               )}
@@ -84,6 +90,7 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
             {project.contributions && (
               <section className="project-contributions" aria-labelledby="project-role">
                 <h2 id="project-role">{contributionsTitle}</h2>
+                {project.contributionsIntro && <p className="project-intro"><TechnicalText text={project.contributionsIntro} /></p>}
                 <ul className="project-points">{project.contributions.map((item) => <li key={item}><TechnicalText text={item} /></li>)}</ul>
               </section>
             )}
@@ -92,7 +99,7 @@ export default function ProjectDetail({ project, nextProject }: ProjectDetailPro
               <ProjectArchitecture architecture={project.architecture} />
             )}
 
-            {project.chapters.map((chapter) => <ProjectChapter key={chapter.id} chapter={chapter} />)}
+            {project.chapters.map((chapter) => <ProjectChapter key={chapter.id} chapter={chapter} prose={project.chapterStyle === "prose"} />)}
             {project.architecture && architectureAfterChapters && (
               <ProjectArchitecture architecture={project.architecture} />
             )}

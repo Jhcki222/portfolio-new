@@ -459,6 +459,27 @@
   scroll-margin-top: calc(var(--header-height) + 28px);
 }
 
+.project-story .project-chapter > h2 {
+  position: relative;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #dce5ed;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 750;
+  line-height: 1.28;
+  text-wrap: balance;
+}
+
+.project-story .project-chapter > h2::after {
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -1px;
+  width: 48px;
+  height: 3px;
+  border-radius: 2px;
+  background: #6c879e;
+  content: "";
+}
+
 .project-story h3 {
   margin: 0 0 12px;
   color: #304358;
@@ -513,9 +534,49 @@
   font-weight: 550;
 }
 
+.project-story .project-stage-heading {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #eef3f8;
+  color: #000;
+  font-size: clamp(21px, 2.2vw, 25px);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.project-chapter-blocks + .project-stage-heading {
+  margin-top: 24px;
+}
+
+.project-chapter-blocks h4 {
+  margin: 0 0 8px;
+  padding-inline-start: 10px;
+  border-inline-start: 3px solid #6c879e;
+  color: #172231;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.project-chapter .project-intro {
+  margin-bottom: 26px;
+}
+
+.project-paragraphs > p {
+  margin: 0;
+}
+
+.project-paragraphs > p + p {
+  margin-top: 12px;
+}
+
+.project-chapter .project-points {
+  gap: 12px;
+}
+
 .project-chapter-blocks {
   display: grid;
-  gap: 20px;
+  gap: 26px;
 }
 
 .project-figure {
@@ -565,6 +626,25 @@
   max-width: 580px;
   margin-right: auto;
   margin-left: auto;
+}
+
+.project-environments {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.project-environment {
+  padding: 20px;
+  border: 1px solid #d8e1ea;
+  border-radius: 8px;
+  background: #eef3f8;
+}
+
+.project-environment .project-points {
+  font-size: 16px;
+  line-height: 1.65;
 }
 
 .project-flow {
@@ -813,6 +893,10 @@
   .project-list-link:hover .project-preview img { transform: none; }
 }
 
+
+.project-chapter-summary {
+  margin-top: 20px;
+}
 
 .project-outcome {
   margin: 20px 0 0;

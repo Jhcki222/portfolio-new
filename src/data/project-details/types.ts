@@ -9,8 +9,8 @@ export type ProjectFigure = {
 
 export type ProjectMetrics = {
   caption: string;
-  columns: [string, string, string];
-  rows: [string, string, string][];
+  columns: [string, string, string?, string?];
+  rows: [string, string, string?, string?][];
   note?: string;
 };
 
@@ -19,7 +19,8 @@ export type ProjectChapter = {
   nav: string;
   title: string;
   description?: string;
-  outcome?: string;
+  outcome?: string | string[];
+  stageHeadings?: false;
   blocks: { heading: string; items: string[]; figure?: ProjectFigure }[];
   figure?: ProjectFigure;
   figures?: ProjectFigure[];
@@ -39,7 +40,9 @@ export type Project = {
   links: { label: string; url: string }[];
   overview: string[];
   description?: string;
+  chapterStyle?: "prose";
   contributionsTitle?: string;
+  contributionsIntro?: string;
   contributions?: string[];
   cover?: ProjectFigure;
   overviewFigures?: ProjectFigure[];
@@ -49,6 +52,7 @@ export type Project = {
     items: string[];
     figures?: ProjectFigure[];
     steps?: { title: string; description: string }[];
+    environments?: { title: string; items: string[] }[];
   };
   chapters: ProjectChapter[];
 };
